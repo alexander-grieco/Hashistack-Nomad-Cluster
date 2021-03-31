@@ -16,6 +16,11 @@ build {
 		destination = "/ops"
 	}
 
+	provisioner "file" {
+		source = "scripts"
+		destination = "/ops"
+	}
+
 	provisioner "shell" {
 		script = "scripts/install-nomad.sh"
 	} 
