@@ -9,7 +9,6 @@ NOMADCONFIGDIR=/etc/nomad.d
 sleep 15
 
 SERVER_COUNT=$1
-NOMAD_BINARY=$2
 
 # Nomad
 ## Replace existing Nomad binary if remote file exists

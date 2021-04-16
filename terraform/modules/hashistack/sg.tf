@@ -1,9 +1,5 @@
 data "aws_vpc" "nomad" {
-  id = vpc-0cf9d77a2e59fcbce
-}
-
-data "aws_subnet_ids" "nomad_subnets" {
-  vpc_id = data.aws_vpc.nomad
+  id = "vpc-0cf9d77a2e59fcbce"
 }
 
 resource "aws_security_group" "server_lb" {
@@ -71,8 +67,8 @@ resource "aws_security_group" "client_lb" {
 }
 
 resource "aws_security_group" "primary" {
-  name   = var.stack_name
-  vpc_id = var.vpc_id != "" ? var.vpc_id : data.aws_vpc.default.id
+  name   = "${var.stack_name}-lb"
+  vpc_id = data.aws_vpc.nomad.id
 
   ingress {
     from_port   = 22
@@ -99,6 +95,21 @@ resource "aws_security_group" "primary" {
     security_groups = [aws_security_group.server_lb.id]
   }
 
+  # Fabio 
+  ingress {
+    from_port   = 9998
+    to_port     = 9998
+    protocol    = "tcp"
+    cidr_blocks = var.allowlist_ip
+  }
+
+  ingress {
+    from_port   = 9998
+    to_port     = 9998
+    protocol    = "tcp"
+    cidr_blocks = var.allowlist_ip
+  }
+  
   # grafana
   ingress {
     from_port       = 3000

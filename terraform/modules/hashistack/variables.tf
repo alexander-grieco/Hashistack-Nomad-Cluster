@@ -1,3 +1,9 @@
+variable "stack_name" {
+  description = "The name to prefix onto resources."
+  type        = string
+  default     = "hashistack"
+}
+
 variable "owner_name" {
   description = "Your name so resources can be easily assigned."
   type        = string

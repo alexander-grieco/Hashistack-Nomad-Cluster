@@ -3,6 +3,7 @@ data_dir = "/opt/nomad"
 
 client {
   enabled = true
+  node_class = NODE_CLASS
 }
 
 # Require TLS
