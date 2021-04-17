@@ -21,11 +21,21 @@ terraform {
 provider "aws" {
 }
 
+module "my_ip_address" {
+  source = "matti/resource/shell"
+
+  command = "curl https://ipinfo.io/ip"
+}
+
 module "hashistack" {
   source = "./modules/hashistack"
 
-  owner_email = "agrieco@pm.me"
-  key_name    = "test"
-  owner_name  = "Alexander Grieco"
-  ami         = "test"
+  region             = var.region
+  owner_email        = var.owner_name
+  key_name           = var.key_name
+  owner_name         = var.owner_name
+  ami                = var.ami
+  availability_zones = var.availability_zones
+  stack_name         = var.stack_name
+  allowlist_ip       = ["${module.my_ip_address.stdout}/32"]
 }
