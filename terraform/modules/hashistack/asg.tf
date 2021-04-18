@@ -1,6 +1,6 @@
 resource "aws_launch_template" "nomad_client" {
   name_prefix            = "nomad-client"
-  image_id               = var.ami
+  image_id               = try(var.ami, data.aws_ami.nomad_image.image_id)
   instance_type          = var.client_instance_type
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.primary.id]

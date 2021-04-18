@@ -104,8 +104,8 @@ resource "aws_security_group" "primary" {
   }
 
   ingress {
-    from_port   = 9998
-    to_port     = 9998
+    from_port   = 9999
+    to_port     = 9999
     protocol    = "tcp"
     cidr_blocks = var.allowlist_ip
   }

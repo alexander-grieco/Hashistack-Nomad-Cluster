@@ -11,10 +11,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "3.33.0"
     }
-    nomad = {
-      source  = "hashicorp/nomad"
-      version = "1.4.13"
-    }
   }
 }
 
@@ -22,8 +18,9 @@ provider "aws" {
 }
 
 module "my_ip_address" {
-  source = "matti/resource/shell"
+  version = "1.1.0"
 
+  source = "matti/resource/shell"
   command = "curl https://ipinfo.io/ip"
 }
 

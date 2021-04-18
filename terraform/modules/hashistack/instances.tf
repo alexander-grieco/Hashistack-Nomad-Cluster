@@ -2,9 +2,19 @@ data "aws_subnet_ids" "nomad" {
   vpc_id = data.aws_vpc.nomad.id
 }
 
+data "aws_ami" "nomad_image" {
+  most_recent      = true
+  owners           = ["self"]
+
+  filter {
+    name = "name"
+    values = ["nomad-*"]
+  }
+}
+
 resource "aws_instance" "nomad_server" {
   for_each               = {for idx, subnet_id in distinct(data.aws_subnet_ids.nomad.ids): subnet_id => idx}
-  ami                    = var.ami
+  ami                    = try(var.ami, data.aws_ami.nomad_image.image_id)
   instance_type          = var.server_instance_type
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.primary.id]

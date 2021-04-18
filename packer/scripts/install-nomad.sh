@@ -2,6 +2,8 @@
 
 set -e
 
+HOME_DIR=ubuntu
+
 echo "Waiting for cloud-init to update /etc/apt/sources.list"
 timeout 180 /bin/bash -c \
   'until stat /var/lib/cloud/instance/boot-finished 2>/dev/null; do echo waiting ...; sleep 1; done'
@@ -76,5 +78,21 @@ sudo apt-get install -y docker-ce
 curl -sL -o cni-plugins.tgz ${CNIDOWNLOAD}
 sudo mkdir -p ${CNIDIR}/bin
 sudo tar -C ${CNIDIR}/bin -xzf cni-plugins.tgz
+
+
+# certs
+CERTDIR=/ops/certs
+CONFIGCERTDIR=$NOMADDIR/tls/certs
+sudo mkdir -p $CONFIGCERTDIR
+sudo chmod 400 $CONFIGCERTDIR
+sudo cp $CERTDIR/nomad-ca.pem $CONFIGCERTDIR
+sudo cp $CERTDIR/cli.pem $CONFIGCERTDIR
+sudo cp $CERTDIR/cli-key.pem $CONFIGCERTDIR
+
+# set cert environment variables
+echo "export NOMAD_CACERT=$CONFIGCERTDIR/nomad-ca.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
+echo "export NOMAD_CLIENT_CERT=$CONFIGCERTDIR/cli.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
+echo "export NOMAD_CLIENT_KEY=$CONFIGCERTDIR/cli-key.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
+
 
 echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
