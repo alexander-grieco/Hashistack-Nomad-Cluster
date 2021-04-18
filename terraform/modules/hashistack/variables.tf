@@ -66,8 +66,20 @@ variable "root_block_device_size" {
   default     = 16
 }
 
+variable "retry_join" {
+  description = "The retry join configuration to use."
+  type        = string
+  default     = "provider=aws tag_key=ConsulAutoJoin tag_value=auto-join"
+}
+
 variable "nomad_binary" {
   description = "The URL to download a custom Nomad binary if desired."
+  type        = string
+  default     = "none"
+}
+
+variable "consul_binary" {
+  description = "The URL to download a custom Consul binary if desired."
   type        = string
   default     = "none"
 }

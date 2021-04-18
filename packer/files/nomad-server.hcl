@@ -1,5 +1,7 @@
 datacenter = "dc1"
-data_dir = "/opt/nomad"
+data_dir = "/opt/nomad/data"
+bind_addr = "0.0.0.0"
+log_level = "DEBUG"
 
 server {
   enabled = true
@@ -28,4 +30,10 @@ autopilot {
   enable_redundancy_zones   = false
   disable_upgrade_migration = false
   enable_custom_upgrades    = false
+}
+
+telemetry {
+  publish_allocation_metrics = true
+  publish_node_metrics       = true
+  prometheus_metrics         = true
 }
