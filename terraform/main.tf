@@ -20,7 +20,7 @@ provider "aws" {
 module "my_ip_address" {
   version = "1.1.0"
 
-  source = "matti/resource/shell"
+  source  = "matti/resource/shell"
   command = "curl https://ipinfo.io/ip"
 }
 

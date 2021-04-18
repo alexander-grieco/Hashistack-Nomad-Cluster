@@ -1,17 +1,17 @@
 output "server_tag_name" {
-  value = aws_instance.nomad_server.*.tags.Name
+  value = values(aws_instance.nomad_server)[*].tags.Name
 }
 
 output "server_public_ips" {
-  value = aws_instance.nomad_server.*.public_ip
+  value = values(aws_instance.nomad_server)[*].public_ip
 }
 
 output "server_private_ips" {
-  value = aws_instance.nomad_server.*.private_ip
+  value = values(aws_instance.nomad_server)[*].private_ip
 }
 
 output "server_addresses" {
-  value = join("\n", formatlist(" * instance %v - Public: %v, Private: %v", aws_instance.nomad_server.*.tags.Name, aws_instance.nomad_server.*.public_ip, aws_instance.nomad_server.*.private_ip))
+  value = join("\n", formatlist(" * instance %v - Public: %v, Private: %v", values(aws_instance.nomad_server)[*].tags.Name, values(aws_instance.nomad_server)[*].public_ip, values(aws_instance.nomad_server)[*].private_ip))
 }
 
 output "server_elb_dns" {
@@ -40,7 +40,7 @@ output "consul_addr" {
 
 output "hosts_file" {
   value = join("\n", concat(
-    formatlist(" %-16s  %v.hs", aws_instance.nomad_server.*.public_ip, aws_instance.nomad_server.*.tags.Name)
+    formatlist(" %-16s  %v.hs", values(aws_instance.nomad_server)[*].public_ip, values(aws_instance.nomad_server)[*].tags.Name)
   ))
 }
 
@@ -54,6 +54,6 @@ output "client_asg_name" {
 
 output "ssh_file" {
   value = join("\n", concat(
-    formatlist("Host %v.hs\n  User ubuntu\n  HostName %v\n", aws_instance.nomad_server.*.tags.Name, aws_instance.nomad_server.*.public_dns)
+    formatlist("Host %v.hs\n  User ubuntu\n  HostName %v\n", values(aws_instance.nomad_server)[*].tags.Name, values(aws_instance.nomad_server)[*].public_dns)
   ))
 }

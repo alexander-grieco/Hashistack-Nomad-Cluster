@@ -1,3 +1,4 @@
+#cloud-boothook
 #!/bin/bash
 SHAREDDIR=/ops/
 CONFIGDIR=$SHAREDDIR/files

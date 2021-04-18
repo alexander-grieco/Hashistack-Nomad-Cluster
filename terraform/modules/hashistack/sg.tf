@@ -109,7 +109,7 @@ resource "aws_security_group" "primary" {
     protocol    = "tcp"
     cidr_blocks = var.allowlist_ip
   }
-  
+
   # grafana
   ingress {
     from_port       = 3000

@@ -1,3 +1,4 @@
+#cloud-boothook
 #!/bin/bash
 set -e
 
