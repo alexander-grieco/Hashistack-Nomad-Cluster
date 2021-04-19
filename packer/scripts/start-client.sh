@@ -42,7 +42,7 @@ fi
 
 # Client config
 sed -i "s/NODE_CLASS/\"$NODE_CLASS\"/g" $CONFIGDIR/nomad-client.hcl
-sudo cp $CONFIGDIR/nomad-client.hcl $NOMADCONFIGDIR
+sudo cp $CONFIGDIR/nomad-client.hcl $NOMADCONFIGDIR/client.hcl
 sudo cp $CONFIGDIR/nomad.service /etc/systemd/system/nomad.service
 
 sudo systemctl enable nomad

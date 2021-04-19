@@ -51,12 +51,12 @@ fi
 
 ## Copy files to correct location
 sed -i "s/SERVER_COUNT/$SERVER_COUNT/g" $CONFIGDIR/nomad-server.hcl
-sudo cp $CONFIGDIR/nomad-server.hcl $NOMADCONFIGDIR
+sudo cp $CONFIGDIR/nomad-server.hcl $NOMADCONFIGDIR/server.hcl
 sudo cp $CONFIGDIR/nomad.service /etc/systemd/system/nomad.service
 
 ## Generate Gossip key
 ENCRYPT_KEY=$(nomad operator keygen)
-sed -i `s/ENCRYPT_KEY/$ENCRYPT_KEY` $NOMADCONFIGDIR/nomad-server.hcl
+sed -i "s@ENCRYPT_KEY@$ENCRYPT_KEY@g" $NOMADCONFIGDIR/server.hcl
 
 ## Start Nomad service
 sudo systemctl enable nomad.service

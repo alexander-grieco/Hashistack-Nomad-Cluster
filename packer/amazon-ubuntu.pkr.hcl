@@ -1,7 +1,7 @@
 source "amazon-ebs" "aws-ubuntu" {
   region        = "us-west-2"
   instance_type = "t2.micro"
-  ami_name      = "nomad-{{timestamp}}"
+  ami_name      = "nomad-hashistack"
   source_ami_filter {
     filters = {
       virtualization-type = "hvm"
@@ -16,5 +16,7 @@ source "amazon-ebs" "aws-ubuntu" {
     Name = "Nomad"
     type = "Hashistack"
   }
-  ssh_username = "ubuntu"
+  ssh_username          = "ubuntu"
+  force_deregister      = true
+  force_delete_snapshot = true
 }

@@ -17,13 +17,6 @@ terraform {
 provider "aws" {
 }
 
-module "my_ip_address" {
-  version = "1.1.0"
-
-  source  = "matti/resource/shell"
-  command = "curl https://ipinfo.io/ip"
-}
-
 module "hashistack" {
   source = "./modules/hashistack"
 
@@ -34,5 +27,5 @@ module "hashistack" {
   ami                = var.ami
   availability_zones = var.availability_zones
   stack_name         = var.stack_name
-  allowlist_ip       = ["${module.my_ip_address.stdout}/32"]
+  allowlist_ip       = ["0.0.0.0/0"]
 }
