@@ -15,7 +15,7 @@ RETRY_JOIN=$2
 # Consul
 sed -i "s/IP_ADDRESS/$IP_ADDRESS/g" $CONFIGDIR/consul_client.hcl
 sed -i "s/RETRY_JOIN/$RETRY_JOIN/g" $CONFIGDIR/consul_client.hcl
-sudo cp $CONFIGDIR/consul_client.hcl $CONSULCONFIGDIR/consul-server.hcl
+sudo cp $CONFIGDIR/consul_client.hcl $CONSULCONFIGDIR/consul.hcl
 sudo cp $CONFIGDIR/consul.service /etc/systemd/system/consul.service
 
 ## Replace existing Consul binary if remote file exists
@@ -42,7 +42,7 @@ fi
 
 # Client config
 sed -i "s/NODE_CLASS/\"$NODE_CLASS\"/g" $CONFIGDIR/nomad-client.hcl
-sudo cp $CONFIGDIR/nomad-client.hcl $NOMADCONFIGDIR/client.hcl
+sudo cp $CONFIGDIR/nomad-client.hcl $NOMADCONFIGDIR/nomad.hcl
 sudo cp $CONFIGDIR/nomad.service /etc/systemd/system/nomad.service
 
 sudo systemctl enable nomad

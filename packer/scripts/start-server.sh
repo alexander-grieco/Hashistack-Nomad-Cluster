@@ -29,7 +29,7 @@ fi
 sed -i "s/IP_ADDRESS/$IP_ADDRESS/g" $CONFIGDIR/consul-server.hcl
 sed -i "s/SERVER_COUNT/$SERVER_COUNT/g" $CONFIGDIR/consul-server.hcl
 sed -i "s/RETRY_JOIN/$RETRY_JOIN/g" $CONFIGDIR/consul-server.hcl
-sudo cp $CONFIGDIR/consul-server.hcl $CONSULCONFIGDIR
+sudo cp $CONFIGDIR/consul-server.hcl $CONSULCONFIGDIR/consul.hcl
 sudo cp $CONFIGDIR/consul.service /etc/systemd/system/consul.service
 
 sudo systemctl enable consul.service
@@ -51,12 +51,12 @@ fi
 
 ## Copy files to correct location
 sed -i "s/SERVER_COUNT/$SERVER_COUNT/g" $CONFIGDIR/nomad-server.hcl
-sudo cp $CONFIGDIR/nomad-server.hcl $NOMADCONFIGDIR/server.hcl
+sudo cp $CONFIGDIR/nomad-server.hcl $NOMADCONFIGDIR/nomad.hcl
 sudo cp $CONFIGDIR/nomad.service /etc/systemd/system/nomad.service
 
 ## Generate Gossip key
 ENCRYPT_KEY=$(nomad operator keygen)
-sed -i "s@ENCRYPT_KEY@$ENCRYPT_KEY@g" $NOMADCONFIGDIR/server.hcl
+sed -i "s@ENCRYPT_KEY@$ENCRYPT_KEY@g" $NOMADCONFIGDIR/nomad.hcl
 
 ## Start Nomad service
 sudo systemctl enable nomad.service

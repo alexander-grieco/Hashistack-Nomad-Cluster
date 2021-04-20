@@ -14,9 +14,9 @@ tls {
   http = true
   rpc  = true
 
-  ca_file   = ${nomad-ca}
-  cert_file = ${server-pem}
-  key_file  = ${server-key-pem}
+  ca_file   = "/opt/nomad//tls/certs/nomad-ca.pem"
+  cert_file = "/opt/nomad//tls/certs/cli.pem"
+  key_file  = "/opt/nomad//tls/certs/cli-key.pem"
 
   verify_server_hostname = true
   verify_https_client    = true
