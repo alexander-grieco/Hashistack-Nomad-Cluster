@@ -14,6 +14,7 @@ sleep 15
 
 SERVER_COUNT=$1
 RETRY_JOIN=$2
+ENCRYPT_KEY=$3
 IP_ADDRESS=$(ip -4 route get 1.1.1.1 | grep -oP 'src \K\S+')
 DOCKER_BRIDGE_IP_ADDRESS=$(ip -4 address show docker0 | awk '/inet / { print $2 }' | cut -d/ -f1)
 
@@ -54,7 +55,6 @@ sudo cp $CONFIGDIR/nomad-server.hcl $NOMADCONFIGDIR/nomad.hcl
 sudo cp $CONFIGDIR/nomad.service /etc/systemd/system/nomad.service
 
 ## Generate Gossip key
-ENCRYPT_KEY=$(nomad operator keygen)
 sed -i "s@ENCRYPT_KEY@$ENCRYPT_KEY@g" $NOMADCONFIGDIR/nomad.hcl
 
 ## Start Nomad service

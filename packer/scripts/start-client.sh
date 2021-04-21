@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-SHAREDDIR=/ops/
+SHAREDDIR=/ops
 CONFIGDIR=$SHAREDDIR/files
 SCRIPTDIR=$SHAREDDIR/scripts
 
@@ -12,10 +12,13 @@ HOME_DIR=ubuntu
 NODE_CLASS=$1
 RETRY_JOIN=$2
 
+IP_ADDRESS=$(ip -4 route get 1.1.1.1 | grep -oP 'src \K\S+')
+DOCKER_BRIDGE_IP_ADDRESS=$(ip -4 address show docker0 | awk '/inet / { print $2 }' | cut -d/ -f1)
+
 # Consul
-sed -i "s/IP_ADDRESS/$IP_ADDRESS/g" $CONFIGDIR/consul_client.hcl
-sed -i "s/RETRY_JOIN/$RETRY_JOIN/g" $CONFIGDIR/consul_client.hcl
-sudo cp $CONFIGDIR/consul_client.hcl $CONSULCONFIGDIR/consul.hcl
+sed -i "s/IP_ADDRESS/$IP_ADDRESS/g" $CONFIGDIR/consul-client.hcl
+sed -i "s/RETRY_JOIN/$RETRY_JOIN/g" $CONFIGDIR/consul-client.hcl
+sudo cp $CONFIGDIR/consul-client.hcl $CONSULCONFIGDIR/consul.hcl
 sudo cp $CONFIGDIR/consul.service /etc/systemd/system/consul.service
 
 ## Replace existing Consul binary if remote file exists

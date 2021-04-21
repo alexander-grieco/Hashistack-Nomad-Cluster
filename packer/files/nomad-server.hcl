@@ -8,6 +8,10 @@ server {
   bootstrap_expect = SERVER_COUNT
 
   encrypt = "ENCRYPT_KEY"
+
+  server_join {
+    retry_join = ["provider=aws tag_key=ConsulAutoJoin tag_value=auto-join"]
+  }
 }
 
 tls {
@@ -20,7 +24,6 @@ tls {
 
   verify_server_hostname = true
   verify_https_client    = true
-  rpc_upgrade_mode       = true
 }
 
 autopilot {

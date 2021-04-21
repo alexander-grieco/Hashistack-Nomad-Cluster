@@ -7,11 +7,12 @@ resource "aws_elb" "nomad_server" {
   idle_timeout = 360
 
   listener {
-    instance_port     = 4646
-    instance_protocol = "http"
-    lb_port           = 4646
-    lb_protocol       = "http"
+    instance_port      = 4646
+    instance_protocol  = "tcp"
+    lb_port            = 4646
+    lb_protocol        = "tcp"
   }
+  
   listener {
     instance_port     = 8500
     instance_protocol = "http"
