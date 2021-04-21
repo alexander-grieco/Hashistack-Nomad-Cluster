@@ -14,6 +14,13 @@ resource "aws_security_group" "server_lb" {
     cidr_blocks = var.allowlist_ip
   }
 
+  ingress {
+    from_port   = 4647
+    to_port     = 4647
+    protocol    = "tcp"
+    cidr_blocks = var.allowlist_ip
+  }
+
   # Consul HTTP API & UI.
   ingress {
     from_port   = 8500
@@ -86,10 +93,82 @@ resource "aws_security_group" "primary" {
     security_groups = [aws_security_group.server_lb.id]
   }
 
+  ingress {
+    from_port       = 4647
+    to_port         = 4647
+    protocol        = "tcp"
+    cidr_blocks     = var.allowlist_ip
+    security_groups = [aws_security_group.server_lb.id]
+  }
+
+  ingress {
+    from_port       = 4647
+    to_port         = 4648
+    protocol        = "tcp"
+    cidr_blocks     = var.allowlist_ip
+    security_groups = [aws_security_group.server_lb.id]
+  }
+
+  ingress {
+    from_port       = 4648
+    to_port         = 4648
+    protocol        = "udp"
+    cidr_blocks     = var.allowlist_ip
+    security_groups = [aws_security_group.server_lb.id]
+  }
+
   # Consul
   ingress {
     from_port       = 8500
     to_port         = 8500
+    protocol        = "tcp"
+    cidr_blocks     = var.allowlist_ip
+    security_groups = [aws_security_group.server_lb.id]
+  }
+
+  ingress {
+    from_port       = 8400
+    to_port         = 8400
+    protocol        = "tcp"
+    cidr_blocks     = var.allowlist_ip
+    security_groups = [aws_security_group.server_lb.id]
+  }
+
+  ingress {
+    from_port       = 8301
+    to_port         = 8301
+    protocol        = "tcp"
+    cidr_blocks     = var.allowlist_ip
+    security_groups = [aws_security_group.server_lb.id]
+  }
+
+  ingress {
+    from_port       = 8301
+    to_port         = 8302
+    protocol        = "tcp"
+    cidr_blocks     = var.allowlist_ip
+    security_groups = [aws_security_group.server_lb.id]
+  }
+
+  ingress {
+    from_port       = 8301
+    to_port         = 8302
+    protocol        = "udp"
+    cidr_blocks     = var.allowlist_ip
+    security_groups = [aws_security_group.server_lb.id]
+  }
+
+  ingress {
+    from_port       = 8302
+    to_port         = 8302
+    protocol        = "tcp"
+    cidr_blocks     = var.allowlist_ip
+    security_groups = [aws_security_group.server_lb.id]
+  }
+
+  ingress {
+    from_port       = 8300
+    to_port         = 8300
     protocol        = "tcp"
     cidr_blocks     = var.allowlist_ip
     security_groups = [aws_security_group.server_lb.id]

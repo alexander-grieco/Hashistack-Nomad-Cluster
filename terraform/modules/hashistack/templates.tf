@@ -7,6 +7,7 @@ data "template_file" "user_data_server" {
     retry_join    = var.retry_join
     consul_binary = var.consul_binary
     nomad_binary  = var.nomad_binary
+    encrypt_key   = var.encrypt_key
   }
 }
 

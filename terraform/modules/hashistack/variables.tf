@@ -89,3 +89,8 @@ variable "allowlist_ip" {
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }
+
+variable "encrypt_key" {
+  description = "The encryption key used for Server Serf communication encryption."
+  type        = string
+}

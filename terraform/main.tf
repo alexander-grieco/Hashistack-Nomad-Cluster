@@ -28,4 +28,5 @@ module "hashistack" {
   availability_zones = var.availability_zones
   stack_name         = var.stack_name
   allowlist_ip       = ["0.0.0.0/0"]
+  encrypt_key        = var.encrypt_key
 }
