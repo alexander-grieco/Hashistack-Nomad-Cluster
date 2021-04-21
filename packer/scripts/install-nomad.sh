@@ -84,10 +84,14 @@ sudo tar -C ${CNIDIR}/bin -xzf cni-plugins.tgz
 CERTDIR=/ops/certs
 CONFIGCERTDIR=$NOMADDIR/tls/certs
 sudo mkdir -p $CONFIGCERTDIR
-sudo chmod 400 $CONFIGCERTDIR
 sudo cp $CERTDIR/nomad-ca.pem $CONFIGCERTDIR
+sudo cp $CERTDIR/server.pem $CONFIGCERTDIR
+sudo cp $CERTDIR/server-key.pem $CONFIGCERTDIR
+sudo cp $CERTDIR/client.pem $CONFIGCERTDIR
+sudo cp $CERTDIR/client-key.pem $CONFIGCERTDIR
 sudo cp $CERTDIR/cli.pem $CONFIGCERTDIR
 sudo cp $CERTDIR/cli-key.pem $CONFIGCERTDIR
+sudo chmod -R 755 $CONFIGCERTDIR
 
 # set cert environment variables
 echo "export NOMAD_CACERT=$CONFIGCERTDIR/nomad-ca.pem" | sudo tee --append /home/$HOME_DIR/.bashrc

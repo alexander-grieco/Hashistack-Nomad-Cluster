@@ -14,12 +14,13 @@ tls {
   http = true
   rpc  = true
 
-  ca_file   = "/opt/nomad//tls/certs/nomad-ca.pem"
-  cert_file = "/opt/nomad//tls/certs/cli.pem"
-  key_file  = "/opt/nomad//tls/certs/cli-key.pem"
+  ca_file   = "/opt/nomad/tls/certs/nomad-ca.pem"
+  cert_file = "/opt/nomad/tls/certs/server.pem"
+  key_file  = "/opt/nomad/tls/certs/server-key.pem"
 
   verify_server_hostname = true
   verify_https_client    = true
+  rpc_upgrade_mode       = true
 }
 
 autopilot {

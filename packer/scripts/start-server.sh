@@ -34,7 +34,6 @@ sudo cp $CONFIGDIR/consul.service /etc/systemd/system/consul.service
 
 sudo systemctl enable consul.service
 sudo systemctl start consul.service
-
 sleep 10
 
 export CONSUL_HTTP_ADDR=$IP_ADDRESS:8500
@@ -77,7 +76,10 @@ echo "nameserver $DOCKER_BRIDGE_IP_ADDRESS" | sudo tee /etc/resolv.conf.new
 cat /etc/resolv.conf | sudo tee --append /etc/resolv.conf.new
 sudo mv /etc/resolv.conf.new /etc/resolv.conf
 
+# Start Docker
+service docker restart
+
 # Set env vars for tool CLIs
 echo "export CONSUL_RPC_ADDR=$IP_ADDRESS:8400" | sudo tee --append /home/$HOME_DIR/.bashrc
 echo "export CONSUL_HTTP_ADDR=$IP_ADDRESS:8500" | sudo tee --append /home/$HOME_DIR/.bashrc
-echo "export NOMAD_ADDR=http://$IP_ADDRESS:4646" | sudo tee --append /home/$HOME_DIR/.bashrc
+echo "export NOMAD_ADDR=https://$IP_ADDRESS:4646" | sudo tee --append /home/$HOME_DIR/.bashrc

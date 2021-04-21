@@ -31,7 +31,7 @@ output "client_elb_dns_zone_id" {
 }
 
 output "nomad_addr" {
-  value = "http://${aws_elb.nomad_server.dns_name}:4646"
+  value = "https://${aws_elb.nomad_server.dns_name}:4646"
 }
 
 output "consul_addr" {

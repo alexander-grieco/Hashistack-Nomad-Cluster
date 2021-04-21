@@ -29,7 +29,8 @@ fi
 sudo systemctl enable consul.service
 sudo systemctl start consul.service
 sleep 10
-
+export CONSUL_HTTP_ADDR=$IP_ADDRESS:8500
+export CONSUL_RPC_ADDR=$IP_ADDRESS:8400
 
 # Nomad
 ## Replace existing Nomad binary if remote file exists
@@ -50,7 +51,7 @@ sudo systemctl start nomad
 sudo systemctl status nomad
 
 sleep 10
-export NOMAD_ADDR=http://$IP_ADDRESS:4646
+export NOMAD_ADDR=https://$IP_ADDRESS:4646
 
 # Add hostname to /etc/hosts
 echo "127.0.0.1 $(hostname)" | sudo tee --append /etc/hosts
@@ -69,5 +70,8 @@ cat /etc/resolv.conf | sudo tee --append /etc/resolv.conf.new
 sudo mv /etc/resolv.conf.new /etc/resolv.conf
 
 # Set env vars for tool CLIs
-echo "export NOMAD_ADDR=http://$IP_ADDRESS:4646" | sudo tee --append /home/$HOME_DIR/.bashrc
+echo "export NOMAD_ADDR=https://$IP_ADDRESS:4646" | sudo tee --append /home/$HOME_DIR/.bashrc
 echo "export CONSUL_HTTP_ADDR=$IP_ADDRESS:8500" | tee --append /home/$HOME_DIR/.bashrc
+
+# Start Docker
+service docker restart
