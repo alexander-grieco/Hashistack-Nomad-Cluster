@@ -1,4 +1,6 @@
 data "template_file" "user_data_server" {
+  count = length(distinct(data.aws_subnet_ids.nomad.ids))
+
   template = file("${path.module}/templates/user-data-server.sh")
 
   vars = {
@@ -8,6 +10,8 @@ data "template_file" "user_data_server" {
     consul_binary = var.consul_binary
     nomad_binary  = var.nomad_binary
     encrypt_key   = var.encrypt_key
+    server_num    = count.index
+    encrypt_key_consul = var.encrypt_key_consul
   }
 }
 
@@ -20,5 +24,7 @@ data "template_file" "user_data_client" {
     consul_binary = var.consul_binary
     nomad_binary  = var.nomad_binary
     node_class    = "hashistack-client"
+    encrypt_key   = var.encrypt_key
+    encrypt_key_consul = var.encrypt_key_consul
   }
 }

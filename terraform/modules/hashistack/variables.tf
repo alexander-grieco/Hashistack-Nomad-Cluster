@@ -94,3 +94,13 @@ variable "encrypt_key" {
   description = "The encryption key used for Server Serf communication encryption."
   type        = string
 }
+
+variable "encrypt_key_consul" {
+  description = "The encryption key used for Server Serf communication for Consul encryption."
+  type        = string
+}
+
+variable "vpc_id" {
+  description = "The id of the VPC where the cluster will be deployed"
+  type = string
+}

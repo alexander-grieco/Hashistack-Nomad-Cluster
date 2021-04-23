@@ -3,7 +3,7 @@ terraform {
     organization = "grieco-tech"
 
     workspaces {
-      name = "test-blog"
+      name = "nomad-hashistack"
     }
   }
   required_providers {
@@ -29,4 +29,6 @@ module "hashistack" {
   stack_name         = var.stack_name
   allowlist_ip       = ["0.0.0.0/0"]
   encrypt_key        = var.encrypt_key
+  vpc_id             = var.vpc_id
+  encrypt_key_consul = var.encrypt_key_consul
 }

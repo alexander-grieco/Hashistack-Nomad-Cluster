@@ -39,16 +39,16 @@ CNIDIR=/opt/cni
 sudo ufw disable || echo "ufw not installed"
 
 # install Consul
-curl -sL -o consul.zip ${CONSULDOWNLOAD}
+curl -sL -o consul.zip $CONSULDOWNLOAD
 sudo unzip consul.zip -d /usr/local/bin
 sudo chmod 0755 /usr/local/bin/consul
 sudo chown root:root /usr/local/bin/consul
 
 # configure Consul directories
-sudo mkdir -p ${CONSULCONFIGDIR}
-sudo chmod 755 ${CONSULCONFIGDIR}
-sudo mkdir -p ${CONSULDIR}
-sudo chmod 755 ${CONSULDIR}
+sudo mkdir -p $CONSULCONFIGDIR
+sudo chmod 755 $CONSULCONFIGDIR
+sudo mkdir -p $CONSULDIR
+
 
 
 # install Nomad
@@ -64,7 +64,7 @@ complete -C /usr/local/bin/nomad nomad
 sudo mkdir -p $NOMADCONFIGDIR
 sudo chmod 755 $NOMADCONFIGDIR
 sudo mkdir -p $NOMADDIR
-sudo chmod 755 $NOMADDIR
+
 
 # Docker
 distro=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
@@ -82,21 +82,33 @@ sudo tar -C ${CNIDIR}/bin -xzf cni-plugins.tgz
 
 # certs
 CERTDIR=/ops/certs
-CONFIGCERTDIR=$NOMADDIR/tls/certs
-sudo mkdir -p $CONFIGCERTDIR
-sudo cp $CERTDIR/nomad-ca.pem $CONFIGCERTDIR
-sudo cp $CERTDIR/server.pem $CONFIGCERTDIR
-sudo cp $CERTDIR/server-key.pem $CONFIGCERTDIR
-sudo cp $CERTDIR/client.pem $CONFIGCERTDIR
-sudo cp $CERTDIR/client-key.pem $CONFIGCERTDIR
-sudo cp $CERTDIR/cli.pem $CONFIGCERTDIR
-sudo cp $CERTDIR/cli-key.pem $CONFIGCERTDIR
-sudo chmod -R 755 $CONFIGCERTDIR
+sudo cp $CERTDIR/nomad-ca.pem $NOMADCONFIGDIR
+sudo cp $CERTDIR/server.pem $NOMADCONFIGDIR
+sudo cp $CERTDIR/server-key.pem $NOMADCONFIGDIR
+sudo cp $CERTDIR/client.pem $NOMADCONFIGDIR
+sudo cp $CERTDIR/client-key.pem $NOMADCONFIGDIR
+sudo cp $CERTDIR/cli.pem $NOMADCONFIGDIR
+sudo cp $CERTDIR/cli-key.pem $NOMADCONFIGDIR
+sudo cp $CERTDIR/consul-agent-ca.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-server-consul-0-key.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-server-consul-0.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-cli-consul-0-key.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-cli-consul-0.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-server-consul-1-key.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-server-consul-1.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-cli-consul-1-key.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-cli-consul-1.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-server-consul-2-key.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-server-consul-2.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-cli-consul-2-key.pem $CONSULCONFIGDIR
+sudo cp $CERTDIR/dc1-cli-consul-2.pem $CONSULCONFIGDIR
+sudo chmod 755 $NOMADCONFIGDIR
+sudo chmod 755 $CONSULCONFIGDIR
 
 # set cert environment variables
-echo "export NOMAD_CACERT=$CONFIGCERTDIR/nomad-ca.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
-echo "export NOMAD_CLIENT_CERT=$CONFIGCERTDIR/cli.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
-echo "export NOMAD_CLIENT_KEY=$CONFIGCERTDIR/cli-key.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
+echo "export NOMAD_CACERT=$NOMADCONFIGDIR/nomad-ca.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
+echo "export NOMAD_CLIENT_CERT=$NOMADCONFIGDIR/cli.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
+echo "export NOMAD_CLIENT_KEY=$NOMADCONFIGDIR/cli-key.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
 
 
 echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections

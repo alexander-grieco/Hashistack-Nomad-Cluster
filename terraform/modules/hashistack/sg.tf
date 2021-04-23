@@ -1,5 +1,5 @@
 data "aws_vpc" "nomad" {
-  id = "vpc-0cf9d77a2e59fcbce"
+  id = var.vpc_id
 }
 
 resource "aws_security_group" "server_lb" {
@@ -14,17 +14,10 @@ resource "aws_security_group" "server_lb" {
     cidr_blocks = var.allowlist_ip
   }
 
-  ingress {
-    from_port   = 4647
-    to_port     = 4647
-    protocol    = "tcp"
-    cidr_blocks = var.allowlist_ip
-  }
-
   # Consul HTTP API & UI.
   ingress {
-    from_port   = 8500
-    to_port     = 8500
+    from_port   = 8501
+    to_port     = 8501
     protocol    = "tcp"
     cidr_blocks = var.allowlist_ip
   }
@@ -40,6 +33,14 @@ resource "aws_security_group" "server_lb" {
 resource "aws_security_group" "client_lb" {
   name   = "nomad-client-lb"
   vpc_id = data.aws_vpc.nomad.id
+
+  # Consul HTTP API & UI.
+  ingress {
+    from_port   = 8501
+    to_port     = 8501
+    protocol    = "tcp"
+    cidr_blocks = var.allowlist_ip
+  }
 
   # Webapp HTTP.
   ingress {
@@ -121,6 +122,14 @@ resource "aws_security_group" "primary" {
   ingress {
     from_port       = 8500
     to_port         = 8500
+    protocol        = "tcp"
+    cidr_blocks     = var.allowlist_ip
+    security_groups = [aws_security_group.server_lb.id]
+  }
+
+  ingress {
+    from_port       = 8501
+    to_port         = 8501
     protocol        = "tcp"
     cidr_blocks     = var.allowlist_ip
     security_groups = [aws_security_group.server_lb.id]

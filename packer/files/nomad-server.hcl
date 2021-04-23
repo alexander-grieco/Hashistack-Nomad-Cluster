@@ -10,7 +10,7 @@ server {
   encrypt = "ENCRYPT_KEY"
 
   server_join {
-    retry_join = ["provider=aws tag_key=ConsulAutoJoin tag_value=auto-join"]
+    retry_join = ["RETRY_JOIN"]
   }
 }
 
@@ -18,9 +18,9 @@ tls {
   http = true
   rpc  = true
 
-  ca_file   = "/opt/nomad/tls/certs/nomad-ca.pem"
-  cert_file = "/opt/nomad/tls/certs/server.pem"
-  key_file  = "/opt/nomad/tls/certs/server-key.pem"
+  ca_file   = "/etc/nomad.d/nomad-ca.pem"
+  cert_file = "/etc/nomad.d/server.pem"
+  key_file  = "/etc/nomad.d/server-key.pem"
 
   verify_server_hostname = true
   verify_https_client    = true
