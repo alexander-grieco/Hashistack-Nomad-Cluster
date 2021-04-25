@@ -102,8 +102,8 @@ sudo cp $CERTDIR/dc1-server-consul-2-key.pem $CONSULCONFIGDIR
 sudo cp $CERTDIR/dc1-server-consul-2.pem $CONSULCONFIGDIR
 sudo cp $CERTDIR/dc1-cli-consul-2-key.pem $CONSULCONFIGDIR
 sudo cp $CERTDIR/dc1-cli-consul-2.pem $CONSULCONFIGDIR
-sudo chmod 755 $NOMADCONFIGDIR
-sudo chmod 755 $CONSULCONFIGDIR
+sudo chmod 755 $NOMADCONFIGDIR/*
+sudo chmod 755 $CONSULCONFIGDIR/*
 
 # set cert environment variables
 echo "export NOMAD_CACERT=$NOMADCONFIGDIR/nomad-ca.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
