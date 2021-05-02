@@ -3,6 +3,14 @@ data_dir = "/opt/nomad/data"
 bind_addr = "0.0.0.0"
 log_level = "DEBUG"
 
+leave_on_terminate = true
+
+advertise {
+  http = "PRIVATE_IPV4"
+  rpc  = "PRIVATE_IPV4"
+  serf = "PRIVATE_IPV4"
+}
+
 server {
   enabled = true
   bootstrap_expect = SERVER_COUNT
@@ -12,6 +20,10 @@ server {
   server_join {
     retry_join = ["RETRY_JOIN"]
   }
+}
+
+acl {
+  enabled = ACLs_ENABLED
 }
 
 tls {
@@ -40,4 +52,14 @@ telemetry {
   publish_allocation_metrics = true
   publish_node_metrics       = true
   prometheus_metrics         = true
+}
+
+consul {
+  ssl        = true
+  verify_ssl = true
+  address    = "127.0.0.1:8501"
+  ca_file    = "/etc/consul.d/consul-ca.pem"
+  cert_file  = "/etc/consul.d/server.pem"
+  key_file   = "/etc/consul.d/server-key.pem"
+  token      = "CONSUL_TOKEN"
 }

@@ -13,15 +13,15 @@ data "aws_ami" "nomad_image" {
 }
 
 resource "aws_instance" "nomad_server" {
-  for_each               = { for idx, subnet_id in distinct(data.aws_subnet_ids.nomad.ids) : subnet_id => idx }
+  for_each               = { for idx, subnet_id in distinct(data.aws_subnet_ids.nomad.ids) : idx => subnet_id }
   ami                    = data.aws_ami.nomad_image.image_id
   instance_type          = var.server_instance_type
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.primary.id]
-  subnet_id              = each.key
+  subnet_id              = each.value
 
   tags = {
-    Name           = "${var.stack_name}-server-${each.value + 1}"
+    Name           = "${var.stack_name}-server-${each.key + 1}"
     ConsulAutoJoin = "auto-join"
     OwnerName      = var.owner_name
     OwnerEmail     = var.owner_email
@@ -33,6 +33,6 @@ resource "aws_instance" "nomad_server" {
     delete_on_termination = "true"
   }
 
-  user_data            = data.template_file.user_data_server[each.value].rendered
+  user_data            = data.template_file.user_data_server.rendered
   iam_instance_profile = aws_iam_instance_profile.nomad_server.name
 }

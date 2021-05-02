@@ -1,6 +1,7 @@
 terraform/.terraform/
 terraform/.terraform.lock.hcl
 packer/certs/
+terraform/certs
 *.pem
 *.tfvars
 *.DS_Store
