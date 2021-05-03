@@ -45,7 +45,7 @@ variable "server_instance_type" {
 variable "server_count" {
   description = "The number of Nomad servers to run."
   type        = number
-  default     = null
+  default     = 3
 }
 
 variable "client_instance_type" {
@@ -102,5 +102,35 @@ variable "encrypt_key_consul" {
 
 variable "vpc_id" {
   description = "The id of the VPC where the cluster will be deployed"
-  type = string
+  type        = string
+}
+
+variable "consul_acls_enabled" {
+  description = "If ACLs should be enabled for the Consul cluster"
+  type        = bool
+  default     = false
+}
+
+variable "acls_default_policy" {
+  description = "The default policy to use for Consul ACLs (allow/deny)"
+  type        = string
+  default     = "deny"
+}
+
+variable "nomad_acls_enabled" {
+  description = "If ACLs should be enabled for the Nomad cluster"
+  type        = bool
+  default     = false
+}
+
+variable "node_class" {
+  description = "A string to arbitrarily group nodes together. This tag will be applied to all client nodes and can be used for scheduling nomad jobs"
+  type        = string
+  default     = "hashistack-client"
+}
+
+variable "tls_organization" {
+  type        = string
+  default     = "agrieco-nomad"
+  description = "The organization name to use the TLS certificates."
 }

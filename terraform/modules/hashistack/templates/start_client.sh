@@ -9,11 +9,7 @@ CONSULCONFIGDIR=/etc/consul.d
 NOMADCONFIGDIR=/etc/nomad.d
 HOME_DIR=ubuntu
 
-NODE_CLASS=$1
-RETRY_JOIN=$2
-ENCRYPT_KEY_CONSUL=$3
-
-IP_ADDRESS=$(ip -4 route get 1.1.1.1 | grep -oP 'src \K\S+')
+PRIVATE_IPV4=$(ip -4 route get 1.1.1.1 | grep -oP 'src \K\S+')
 DOCKER_BRIDGE_IP_ADDRESS=$(ip -4 address show docker0 | awk '/inet / { print $2 }' | cut -d/ -f1)
 
 ## Replace existing Consul binary if remote file exists
@@ -24,22 +20,50 @@ if [[ `wget -S --spider $CONSUL_BINARY  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
   sudo chown root:root /usr/local/bin/consul
 fi
 
-# Consul
-sed -i "s/IP_ADDRESS/$IP_ADDRESS/g" $CONFIGDIR/consul-client.hcl
-sed -i "s/RETRY_JOIN/$RETRY_JOIN/g" $CONFIGDIR/consul-client.hcl
+# CONSUL CONFIGURATION
+
+# Add the Consul CA PEM
+cat > /tmp/consul-ca.pem << EOF
+${consul_ca_cert}
+EOF
+sudo mv /tmp/consul-ca.pem $CONSULCONFIGDIR/consul-ca.pem
+
 sudo cp $CONFIGDIR/consul-client.hcl $CONSULCONFIGDIR/consul.hcl
 sudo cp $CONFIGDIR/consul.service /etc/systemd/system/consul.service
 
+# Replace variables
+sed -i "s/PRIVATE_IPV4/$PRIVATE_IPV4/g" $CONSULCONFIGDIR/consul.hcl
+sed -i "s/RETRY_JOIN/${retry_join}/g" $CONSULCONFIGDIR/consul.hcl
+sed -i "s/ACLs_ENABLED/${consul_acls_enabled}/g" $CONSULCONFIGDIR/consul.hcl
+sed -i "s/ACLs_DEFAULT_POLICY/${acls_default_policy}/g" $CONSULCONFIGDIR/consul.hcl
+
 # add key for gossip encryption
-sed -i "s@ENCRYPT_KEY_CONSUL@$ENCRYPT_KEY_CONSUL@g" $CONSULCONFIGDIR/consul.hcl
+sed -i "s@ENCRYPT_KEY_CONSUL@${encrypt_key_consul}@g" $CONSULCONFIGDIR/consul.hcl
 
 sudo systemctl enable consul.service
 sudo systemctl start consul.service
 sleep 10
-export CONSUL_HTTP_ADDR=$IP_ADDRESS:8500
-export CONSUL_RPC_ADDR=$IP_ADDRESS:8400
 
-# Nomad
+# NOMAD CONFIGURATION
+
+# Add the Nomad CA PEM
+cat > /tmp/nomad-ca.pem << EOF
+${nomad_ca_cert}
+EOF
+sudo mv /tmp/nomad-ca.pem $NOMADCONFIGDIR/nomad-ca.pem
+
+# Add the Nomad Client PEM
+cat > /tmp/client.pem << EOF
+${nomad_client_cert}
+EOF
+sudo mv /tmp/client.pem $NOMADCONFIGDIR/client.pem
+
+# Add the Nomad Client Private Key PEM
+cat > /tmp/client-key.pem << EOF
+${nomad_client_private_key}
+EOF
+sudo mv /tmp/client-key.pem $NOMADCONFIGDIR/client-key.pem
+
 ## Replace existing Nomad binary if remote file exists
 if [[ `wget -S --spider $NOMAD_BINARY  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
   curl -L $NOMAD_BINARY > nomad.zip
@@ -49,22 +73,31 @@ if [[ `wget -S --spider $NOMAD_BINARY  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
 fi
 
 # Client config
-sed -i "s/NODE_CLASS/\"$NODE_CLASS\"/g" $CONFIGDIR/nomad-client.hcl
 sudo cp $CONFIGDIR/nomad-client.hcl $NOMADCONFIGDIR/nomad.hcl
 sudo cp $CONFIGDIR/nomad.service /etc/systemd/system/nomad.service
+
+
+sed -i "s/NODE_CLASS/\"${node_class}\"/g" $NOMADCONFIGDIR/nomad.hcl
+sed -i "s/ACLs_ENABLED/${nomad_acls_enabled}/g" $NOMADCONFIGDIR/nomad.hcl
+
+
+if [ "${consul_acls_enabled}" = "true" ]; then
+    sed -i -e "s/CONSUL_TOKEN/${consul_master_token}/g" $NOMADCONFIGDIR/nomad.hcl
+else
+    sed -i -e "s/{CONSUL-TOKEN}//g" $NOMADCONFIGDIR/nomad.hcl
+fi
 
 sudo systemctl enable nomad
 sudo systemctl start nomad
 sudo systemctl status nomad
 
 sleep 10
-export NOMAD_ADDR=https://$IP_ADDRESS:4646
 
 # Add hostname to /etc/hosts
 echo "127.0.0.1 $(hostname)" | sudo tee --append /etc/hosts
 
 
-echo "nameserver $IP_ADDRESS" | tee /etc/resolv.conf.new
+echo "nameserver $PRIVATE_IPV4" | tee /etc/resolv.conf.new
 cat /etc/resolv.conf | tee --append /etc/resolv.conf.new
 mv /etc/resolv.conf.new /etc/resolv.conf
 

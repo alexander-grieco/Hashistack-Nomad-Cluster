@@ -1,18 +1,24 @@
+resource "aws_elb_attachment" "nomad_server" {
+  count = var.server_count
+
+  elb      = aws_elb.nomad_server.id
+  instance = aws_instance.nomad_server[count.index].id
+}
+
 resource "aws_elb" "nomad_server" {
-  name    = "${var.stack_name}-nomad-server"
-  subnets = distinct(data.aws_subnet_ids.nomad.ids)
-  // availability_zones = distinct(values(aws_instance.nomad_server)[*].availability_zone)
-  internal     = false
-  instances    = values(aws_instance.nomad_server)[*].id
+  name     = "${var.stack_name}-nomad-server"
+  subnets  = distinct(data.aws_subnet_ids.nomad.ids)
+  internal = false
+  // instances    = values(aws_instance.nomad_server)[*].id
   idle_timeout = 360
 
   listener {
-    instance_port      = 4646
-    instance_protocol  = "tcp"
-    lb_port            = 4646
-    lb_protocol        = "tcp"
+    instance_port     = 4646
+    instance_protocol = "tcp"
+    lb_port           = 4646
+    lb_protocol       = "tcp"
   }
-  
+
   listener {
     instance_port     = 8501
     instance_protocol = "tcp"
@@ -23,15 +29,14 @@ resource "aws_elb" "nomad_server" {
 }
 
 resource "aws_elb" "nomad_client" {
-  name    = "${var.stack_name}-nomad-client"
-  subnets = distinct(data.aws_subnet_ids.nomad.ids)
-  // availability_zones = distinct(values(aws_instance.nomad_server)[*].availability_zone)
+  name     = "${var.stack_name}-nomad-client"
+  subnets  = distinct(data.aws_subnet_ids.nomad.ids)
   internal = false
   listener {
-    instance_port      = 8501
-    instance_protocol  = "tcp"
-    lb_port            = 8501
-    lb_protocol        = "tcp"
+    instance_port     = 8501
+    instance_protocol = "tcp"
+    lb_port           = 8501
+    lb_protocol       = "tcp"
   }
   listener {
     instance_port     = 80

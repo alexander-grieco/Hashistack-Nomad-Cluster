@@ -21,12 +21,12 @@ build {
     destination = "/ops"
   }
 
-  provisioner "file" {
-    source      = "certs"
-    destination = "/ops"
-  }
+  # provisioner "file" {
+  #   source      = "certs"
+  #   destination = "/ops"
+  # }
 
   provisioner "shell" {
-    script = "scripts/install-nomad.sh"
+    script = "scripts/initialize.sh"
   }
 }
