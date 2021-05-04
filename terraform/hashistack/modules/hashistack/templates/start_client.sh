@@ -28,6 +28,19 @@ ${consul_ca_cert}
 EOF
 sudo mv /tmp/consul-ca.pem $CONSULCONFIGDIR/consul-ca.pem
 
+# # Add the Consul Client PEM
+cat > /tmp/client.pem << EOF
+${consul_client_cert}
+EOF
+sudo mv /tmp/client.pem $CONSULCONFIGDIR/client.pem
+
+# Add the Consul Client Private Key PEM
+cat > /tmp/client-key.pem << EOF
+${consul_client_private_key}
+EOF
+sudo mv /tmp/client-key.pem $CONSULCONFIGDIR/client-key.pem
+
+# Move files to appropriate locations
 sudo cp $CONFIGDIR/consul-client.hcl $CONSULCONFIGDIR/consul.hcl
 sudo cp $CONFIGDIR/consul.service /etc/systemd/system/consul.service
 

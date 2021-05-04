@@ -41,6 +41,8 @@ verify_incoming = false
 verify_outgoing = true
 verify_server_hostname = true
 ca_file = "/etc/consul.d/consul-ca.pem"
+cert_file = "/etc/consul.d/client.pem"
+key_file = "/etc/consul.d/client-key.pem"
 
 auto_encrypt = {
   tls = true

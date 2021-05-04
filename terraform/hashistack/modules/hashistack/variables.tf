@@ -105,6 +105,11 @@ variable "vpc_id" {
   type        = string
 }
 
+variable "subnet_ids" {
+  description = "The subnet ids for each subnet in the vpc"
+  type = list(string)
+}
+
 variable "consul_acls_enabled" {
   description = "If ACLs should be enabled for the Consul cluster"
   type        = bool

@@ -28,22 +28,22 @@ data "template_file" "user_data_client" {
   template = file("${path.module}/templates/start_client.sh")
 
   vars = {
-    region                   = var.region
-    nomad_binary             = var.nomad_binary
-    consul_binary            = var.consul_binary
-    consul_acls_enabled      = var.consul_acls_enabled
-    consul_master_token      = random_uuid.consul_master_token.result
-    acls_default_policy      = var.acls_default_policy
-    encrypt_key_consul       = replace(random_id.consul-gossip-key.b64_std, "/", "\\/")
-    consul_ca_cert           = tls_self_signed_cert.consul-ca.cert_pem
-    node_class               = var.node_class
-    nomad_acls_enabled       = var.nomad_acls_enabled
-    nomad_ca_cert            = tls_self_signed_cert.nomad-ca.cert_pem
-    nomad_client_cert        = tls_locally_signed_cert.nomad-client.cert_pem
-    nomad_client_private_key = tls_private_key.nomad-client.private_key_pem
-    retry_join               = var.retry_join
-    encrypt_key              = var.encrypt_key
-    // consul_client_cert        = tls_locally_signed_cert.consul-client.cert_pem
-    // consul_client_private_key = tls_private_key.consul-client.private_key_pem
+    region                    = var.region
+    nomad_binary              = var.nomad_binary
+    consul_binary             = var.consul_binary
+    consul_acls_enabled       = var.consul_acls_enabled
+    consul_master_token       = random_uuid.consul_master_token.result
+    acls_default_policy       = var.acls_default_policy
+    encrypt_key_consul        = replace(random_id.consul-gossip-key.b64_std, "/", "\\/")
+    consul_ca_cert            = tls_self_signed_cert.consul-ca.cert_pem
+    node_class                = var.node_class
+    nomad_acls_enabled        = var.nomad_acls_enabled
+    nomad_ca_cert             = tls_self_signed_cert.nomad-ca.cert_pem
+    nomad_client_cert         = tls_locally_signed_cert.nomad-client.cert_pem
+    nomad_client_private_key  = tls_private_key.nomad-client.private_key_pem
+    retry_join                = var.retry_join
+    encrypt_key               = var.encrypt_key
+    consul_client_cert        = tls_locally_signed_cert.consul-client.cert_pem
+    consul_client_private_key = tls_private_key.consul-client.private_key_pem
   }
 }

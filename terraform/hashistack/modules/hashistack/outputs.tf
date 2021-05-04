@@ -69,3 +69,15 @@ output "nomad_cli_cert" {
 output "nomad_cli_key" {
   value = tls_private_key.nomad-cli.private_key_pem
 }
+
+output "consul_cacert" {
+  value = tls_self_signed_cert.consul-ca.cert_pem
+}
+
+output "consul_cli_cert" {
+  value = tls_locally_signed_cert.consul-cli.cert_pem
+}
+
+output "consul_cli_key" {
+  value = tls_private_key.consul-cli.private_key_pem
+}

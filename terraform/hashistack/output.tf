@@ -16,5 +16,6 @@ Webapp can be accessed at http://${module.hashistack.client_elb_dns}:80
 CLI environment variables:
 export NOMAD_CLIENT_DNS=http://${module.hashistack.client_elb_dns}
 export NOMAD_ADDR=${module.hashistack.nomad_addr}
+export CONSUL_HTTP_ADDR=${module.hashistack.consul_addr}
 CONFIGURATION
 }

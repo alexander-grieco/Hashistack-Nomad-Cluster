@@ -79,32 +79,6 @@ curl -sL -o cni-plugins.tgz ${CNIDOWNLOAD}
 sudo mkdir -p ${CNIDIR}/bin
 sudo tar -C ${CNIDIR}/bin -xzf cni-plugins.tgz
 
-
-# certs
-# CERTDIR=/ops/certs
-# sudo cp $CERTDIR/nomad-ca.pem $NOMADCONFIGDIR
-# sudo cp $CERTDIR/server.pem $NOMADCONFIGDIR
-# sudo cp $CERTDIR/server-key.pem $NOMADCONFIGDIR
-# sudo cp $CERTDIR/client.pem $NOMADCONFIGDIR
-# sudo cp $CERTDIR/client-key.pem $NOMADCONFIGDIR
-# sudo cp $CERTDIR/cli.pem $NOMADCONFIGDIR
-# sudo cp $CERTDIR/cli-key.pem $NOMADCONFIGDIR
-# sudo cp $CERTDIR/consul-agent-ca.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-server-consul-0-key.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-server-consul-0.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-cli-consul-0-key.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-cli-consul-0.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-server-consul-1-key.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-server-consul-1.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-cli-consul-1-key.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-cli-consul-1.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-server-consul-2-key.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-server-consul-2.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-cli-consul-2-key.pem $CONSULCONFIGDIR
-# sudo cp $CERTDIR/dc1-cli-consul-2.pem $CONSULCONFIGDIR
-# sudo chmod 755 $NOMADCONFIGDIR/*
-# sudo chmod 755 $CONSULCONFIGDIR/*
-
 # set cert environment variables
 echo "export NOMAD_CACERT=$NOMADCONFIGDIR/nomad-ca.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
 echo "export NOMAD_CLIENT_CERT=$NOMADCONFIGDIR/cli.pem" | sudo tee --append /home/$HOME_DIR/.bashrc
