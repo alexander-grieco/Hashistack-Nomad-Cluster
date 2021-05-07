@@ -1,7 +1,3 @@
-data "aws_subnet_ids" "nomad" {
-  vpc_id = data.aws_vpc.nomad.id
-}
-
 data "aws_ami" "nomad_image" {
   most_recent = true
   owners      = ["self"]
@@ -13,10 +9,10 @@ data "aws_ami" "nomad_image" {
 }
 
 resource "aws_instance" "nomad_server" {
-  for_each               = { for idx, subnet_id in distinct(data.aws_subnet_ids.nomad.ids) : idx => subnet_id }
+  for_each               = { for idx, subnet_id in data.terraform_remote_state.network.outputs.subnet_ids : idx => subnet_id }
   ami                    = data.aws_ami.nomad_image.image_id
   instance_type          = var.server_instance_type
-  key_name               = var.key_name
+  key_name               = var.key_pair
   vpc_security_group_ids = [aws_security_group.primary.id]
   subnet_id              = each.value
 

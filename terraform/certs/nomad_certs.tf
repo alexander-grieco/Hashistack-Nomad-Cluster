@@ -38,7 +38,7 @@ resource "tls_cert_request" "nomad-cli" {
   ]
 
   dns_names = [
-    aws_elb.nomad_server.dns_name,
+    var.server_dns_name,
   ]
 
   subject {
@@ -118,7 +118,7 @@ resource "tls_cert_request" "nomad-server" {
   dns_names = [
     "localhost",
     "server.global.nomad",
-    aws_elb.nomad_server.dns_name,
+    var.server_dns_name,
   ]
 
   subject {

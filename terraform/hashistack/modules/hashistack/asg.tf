@@ -2,15 +2,8 @@ resource "aws_launch_template" "nomad_client" {
   name_prefix   = "nomad-client"
   image_id      = data.aws_ami.nomad_image.image_id
   instance_type = var.client_instance_type
-  key_name      = var.key_name
+  key_name      = var.key_pair
   user_data     = base64encode(data.template_file.user_data_client.rendered)
-
-  // vpc_security_group_ids = [aws_security_group.primary.id]
-
-  network_interfaces {
-    subnet_id       = distinct(data.aws_subnet_ids.nomad.ids)[0]
-    security_groups = [aws_security_group.primary.id]
-  }
 
   iam_instance_profile {
     name = aws_iam_instance_profile.nomad_client.name
@@ -36,13 +29,13 @@ resource "aws_launch_template" "nomad_client" {
 }
 
 resource "aws_autoscaling_group" "nomad_client" {
-  name               = "${var.stack_name}-nomad_client"
-  availability_zones = var.availability_zones
-  desired_capacity   = var.client_count
-  min_size           = 0
-  max_size           = 10
-  depends_on         = [aws_instance.nomad_server]
-  load_balancers     = [aws_elb.nomad_client.name]
+  name                = "${var.stack_name}-nomad_client"
+  vpc_zone_identifier = data.terraform_remote_state.network.outputs.subnet_ids
+  desired_capacity    = var.client_count
+  min_size            = 0
+  max_size            = 10
+  depends_on          = [aws_instance.nomad_server]
+  load_balancers      = [aws_elb.nomad_client.name]
 
   launch_template {
     id      = aws_launch_template.nomad_client.id

@@ -57,27 +57,3 @@ output "ssh_file" {
     formatlist("Host %v.hs\n  User ubuntu\n  HostName %v\n", values(aws_instance.nomad_server)[*].tags.Name, values(aws_instance.nomad_server)[*].public_dns)
   ))
 }
-
-output "nomad_cacert" {
-  value = tls_self_signed_cert.nomad-ca.cert_pem
-}
-
-output "nomad_cli_cert" {
-  value = tls_locally_signed_cert.nomad-cli.cert_pem
-}
-
-output "nomad_cli_key" {
-  value = tls_private_key.nomad-cli.private_key_pem
-}
-
-output "consul_cacert" {
-  value = tls_self_signed_cert.consul-ca.cert_pem
-}
-
-output "consul_cli_cert" {
-  value = tls_locally_signed_cert.consul-cli.cert_pem
-}
-
-output "consul_cli_key" {
-  value = tls_private_key.consul-cli.private_key_pem
-}

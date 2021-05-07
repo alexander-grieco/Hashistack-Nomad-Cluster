@@ -1,18 +1,18 @@
 resource "local_file" "cacert" {
   count             = var.cert_path == "" ? 0 : 1
-  sensitive_content = module.hashistack.nomad_cacert
+  sensitive_content = tls_self_signed_cert.nomad-ca.cert_pem
   filename          = "${var.cert_path}/nomad/nomad-ca.pem"
 }
 
 resource "local_file" "cli_cert" {
   count             = var.cert_path == "" ? 0 : 1
-  sensitive_content = module.hashistack.nomad_cli_cert
+  sensitive_content = tls_locally_signed_cert.nomad-cli.cert_pem
   filename          = "${var.cert_path}/nomad/cli.pem"
 }
 
 resource "local_file" "cli_key" {
   count             = var.cert_path == "" ? 0 : 1
-  sensitive_content = module.hashistack.nomad_cli_key
+  sensitive_content = tls_private_key.nomad-cli.private_key_pem
   filename          = "${var.cert_path}/nomad/cli-key.pem"
 }
 
@@ -30,19 +30,19 @@ resource "null_resource" "nomad-pfx" {
 
 resource "local_file" "cacert_consul" {
   count             = var.cert_path == "" ? 0 : 1
-  sensitive_content = module.hashistack.consul_cacert
+  sensitive_content = tls_self_signed_cert.consul-ca.cert_pem
   filename          = "${var.cert_path}/consul/consul-ca.pem"
 }
 
 resource "local_file" "cli_cert_consul" {
   count             = var.cert_path == "" ? 0 : 1
-  sensitive_content = module.hashistack.consul_cli_cert
+  sensitive_content = tls_locally_signed_cert.consul-cli.cert_pem
   filename          = "${var.cert_path}/consul/cli.pem"
 }
 
 resource "local_file" "cli_key_consul" {
   count             = var.cert_path == "" ? 0 : 1
-  sensitive_content = module.hashistack.consul_cli_key
+  sensitive_content = tls_private_key.consul-cli.private_key_pem
   filename          = "${var.cert_path}/consul/cli-key.pem"
 }
 

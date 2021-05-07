@@ -20,18 +20,12 @@ variable "region" {
   default     = "us-west-2"
 }
 
-variable "availability_zones" {
-  description = "The AWS region AZs to deploy into."
-  type        = list(string)
-  default     = ["us-west-2a", "us-west-2b", "us-west-2c"]
-}
-
 variable "ami" {
   description = "The AMI to use, preferably built by the supplied Packer scripts."
   type        = string
 }
 
-variable "key_name" {
+variable "key_pair" {
   description = "The EC2 key pair to use for EC2 instance SSH access."
   type        = string
 }
@@ -90,26 +84,6 @@ variable "allowlist_ip" {
   default     = ["0.0.0.0/0"]
 }
 
-variable "encrypt_key" {
-  description = "The encryption key used for Server Serf communication encryption."
-  type        = string
-}
-
-variable "encrypt_key_consul" {
-  description = "The encryption key used for Server Serf communication for Consul encryption."
-  type        = string
-}
-
-variable "vpc_id" {
-  description = "The id of the VPC where the cluster will be deployed"
-  type        = string
-}
-
-variable "subnet_ids" {
-  description = "The subnet ids for each subnet in the vpc"
-  type = list(string)
-}
-
 variable "consul_acls_enabled" {
   description = "If ACLs should be enabled for the Consul cluster"
   type        = bool
@@ -132,10 +106,4 @@ variable "node_class" {
   description = "A string to arbitrarily group nodes together. This tag will be applied to all client nodes and can be used for scheduling nomad jobs"
   type        = string
   default     = "hashistack-client"
-}
-
-variable "tls_organization" {
-  type        = string
-  default     = "agrieco-nomad"
-  description = "The organization name to use the TLS certificates."
 }

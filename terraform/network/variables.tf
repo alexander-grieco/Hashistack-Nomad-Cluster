@@ -1,4 +1,4 @@
 variable "vpc_cidr" {}
-variable "name_tag_prefix" {}
+variable "stack_name" {}
 variable "subnet_cidrs" {}
 variable "subnet_azs" {}

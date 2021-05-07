@@ -1,10 +1,6 @@
-data "aws_vpc" "nomad" {
-  id = var.vpc_id
-}
-
 resource "aws_security_group" "server_lb" {
   name   = "nomad-server-lb"
-  vpc_id = data.aws_vpc.nomad.id
+  vpc_id = data.terraform_remote_state.network.outputs.vpc_id
 
   # Nomad HTTP API & UI.
   ingress {
@@ -32,7 +28,7 @@ resource "aws_security_group" "server_lb" {
 
 resource "aws_security_group" "client_lb" {
   name   = "nomad-client-lb"
-  vpc_id = data.aws_vpc.nomad.id
+  vpc_id = data.terraform_remote_state.network.outputs.vpc_id
 
   # Consul HTTP API & UI.
   ingress {
@@ -76,7 +72,7 @@ resource "aws_security_group" "client_lb" {
 
 resource "aws_security_group" "primary" {
   name   = "${var.stack_name}-lb"
-  vpc_id = data.aws_vpc.nomad.id
+  vpc_id = data.terraform_remote_state.network.outputs.vpc_id
 
   ingress {
     from_port   = 22

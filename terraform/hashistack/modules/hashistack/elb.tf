@@ -7,9 +7,10 @@ resource "aws_elb_attachment" "nomad_server" {
 
 resource "aws_elb" "nomad_server" {
   name     = "${var.stack_name}-nomad-server"
-  subnets  = distinct(data.aws_subnet_ids.nomad.ids)
+  // CANT DO THIS AND IT IS A HUGE PROBLEM
+  // dns_name = data.terraform_remote_state.certs.outputs.server_dns_name
+  subnets  = data.terraform_remote_state.network.outputs.subnet_ids
   internal = false
-  // instances    = values(aws_instance.nomad_server)[*].id
   idle_timeout = 360
 
   listener {
@@ -30,7 +31,7 @@ resource "aws_elb" "nomad_server" {
 
 resource "aws_elb" "nomad_client" {
   name     = "${var.stack_name}-nomad-client"
-  subnets  = distinct(data.aws_subnet_ids.nomad.ids)
+  subnets  = data.terraform_remote_state.network.outputs.subnet_ids
   internal = false
   listener {
     instance_port     = 8501

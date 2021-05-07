@@ -21,9 +21,9 @@ leave_on_terminate = true
 log_level = "DEBUG"
 server = false
 
-connect {
-  enabled = true
-}
+// connect {
+//   enabled = true
+// }
 
 acl {
   enabled        = ACLs_ENABLED
@@ -47,9 +47,3 @@ key_file = "/etc/consul.d/client-key.pem"
 auto_encrypt = {
   tls = true
 }
-
-
-// telemetry {
-//   prometheus_retention_time  = "24h"
-//   disable_hostname           = true
-// }

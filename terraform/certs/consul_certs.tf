@@ -41,7 +41,7 @@ resource "tls_cert_request" "consul-cli" {
   dns_names = [
     "localhost",
     "cli.dc1.consul",
-    aws_elb.nomad_server.dns_name,
+    var.server_dns_name,
   ]
 
   subject {
@@ -82,7 +82,7 @@ resource "tls_cert_request" "consul-server" {
   dns_names = [
     "localhost",
     "server.dc1.consul",
-    aws_elb.nomad_server.dns_name,
+    var.server_dns_name,
   ]
 
   subject {

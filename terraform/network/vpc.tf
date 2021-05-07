@@ -2,7 +2,7 @@ resource "aws_vpc" "hashistack" {
   cidr_block = var.vpc_cidr
 
   tags = {
-    Name = "${var.name_tag_prefix} VPC"
+    Name = "${var.stack_name} VPC"
   }
 }
 
@@ -11,7 +11,7 @@ resource "aws_internet_gateway" "hashistack" {
   vpc_id = aws_vpc.hashistack.id
 
   tags = {
-    Name = "${var.name_tag_prefix} IGW"
+    Name = "${var.stack_name} IGW"
   }
 }
 
@@ -25,7 +25,7 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${each.value} - ${var.name_tag_prefix}"
+    Name = "${each.value} - ${var.stack_name}"
   }
 }
 
@@ -39,7 +39,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "${var.name_tag_prefix} Public Route Table"
+    Name = "${var.stack_name} Public Route Table"
   }
 }
 

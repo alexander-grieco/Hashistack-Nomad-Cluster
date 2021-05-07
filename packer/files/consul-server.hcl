@@ -23,9 +23,9 @@ retry_join = ["RETRY_JOIN"]
 server = true
 ui = true
 
-connect {
-  enabled = true
-}
+// connect {
+//   enabled = true
+// }
 
 autopilot {
   cleanup_dead_servers = true
@@ -59,11 +59,3 @@ key_file = "/etc/consul.d/server-key.pem"
 auto_encrypt {
   allow_tls = true
 }
-
-// telemetry {
-//   collection_interval        = "5s"
-//   disable_hostname           = true
-//   prometheus_metrics         = true
-//   publish_allocation_metrics = true
-//   publish_node_metrics       = true
-// } 
