@@ -7,8 +7,6 @@ resource "aws_elb_attachment" "nomad_server" {
 
 resource "aws_elb" "nomad_server" {
   name     = "${var.stack_name}-nomad-server"
-  // CANT DO THIS AND IT IS A HUGE PROBLEM
-  // dns_name = data.terraform_remote_state.certs.outputs.server_dns_name
   subnets  = data.terraform_remote_state.network.outputs.subnet_ids
   internal = false
   idle_timeout = 360

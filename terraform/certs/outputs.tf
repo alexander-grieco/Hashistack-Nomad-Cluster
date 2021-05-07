@@ -57,7 +57,3 @@ output "nomad_client_key" {
   value = tls_private_key.nomad-client.private_key_pem
   sensitive = true
 }
-
-output "server_dns_name" {
-  value = var.server_dns_name
-}
