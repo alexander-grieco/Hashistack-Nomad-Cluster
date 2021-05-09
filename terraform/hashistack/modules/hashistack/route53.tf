@@ -1,6 +1,6 @@
 resource "aws_route53_record" "www" {
   zone_id = data.terraform_remote_state.network.outputs.hosted_zone_id
-  name    = "example.com"
+  name    = "www"
   type    = "A"
 
   alias {

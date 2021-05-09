@@ -57,3 +57,7 @@ output "nomad_client_key" {
   value = tls_private_key.nomad-client.private_key_pem
   sensitive = true
 }
+
+output "dns_prefix" {
+  value = var.dns_prefix
+}

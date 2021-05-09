@@ -31,11 +31,11 @@ output "client_elb_dns_zone_id" {
 }
 
 output "nomad_addr" {
-  value = "https://${aws_elb.nomad_server.dns_name}:4646"
+  value = "https://${data.terraform_remote_state.certs.outputs.dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}:4646"
 }
 
 output "consul_addr" {
-  value = "https://${aws_elb.nomad_server.dns_name}:8501"
+  value = "https://${data.terraform_remote_state.certs.outputs.dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}:8501"
 }
 
 output "hosts_file" {

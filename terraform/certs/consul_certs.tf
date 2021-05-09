@@ -41,7 +41,7 @@ resource "tls_cert_request" "consul-cli" {
   dns_names = [
     "localhost",
     "cli.dc1.consul",
-    data.terraform_remote_state.network.outputs.hosted_zone_name,
+    "${var.dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}",
   ]
 
   subject {
@@ -82,7 +82,7 @@ resource "tls_cert_request" "consul-server" {
   dns_names = [
     "localhost",
     "server.dc1.consul",
-    data.terraform_remote_state.network.outputs.hosted_zone_name,
+    "${var.dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}",
   ]
 
   subject {

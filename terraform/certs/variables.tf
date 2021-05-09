@@ -17,3 +17,8 @@ variable "ssl_password" {
   sensitive   = true
   description = "Password used to encrypt .pfx files that would be used in your browser for remote UI access"
 }
+
+variable "dns_prefix" {
+  type = string
+  default = "www"
+}

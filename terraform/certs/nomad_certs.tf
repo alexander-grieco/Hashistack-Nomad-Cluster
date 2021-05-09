@@ -38,7 +38,7 @@ resource "tls_cert_request" "nomad-cli" {
   ]
 
   dns_names = [
-    data.terraform_remote_state.network.outputs.hosted_zone_name,
+    "${var.dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}",
   ]
 
   subject {
@@ -118,7 +118,7 @@ resource "tls_cert_request" "nomad-server" {
   dns_names = [
     "localhost",
     "server.global.nomad",
-    data.terraform_remote_state.network.outputs.hosted_zone_name,
+    "${var.dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}",
   ]
 
   subject {
