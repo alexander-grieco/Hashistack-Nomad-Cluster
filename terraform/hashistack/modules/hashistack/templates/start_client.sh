@@ -45,6 +45,7 @@ sudo cp $CONFIGDIR/consul-client.hcl $CONSULCONFIGDIR/consul.hcl
 sudo cp $CONFIGDIR/consul.service /etc/systemd/system/consul.service
 
 # Replace variables
+sed -i "s/CONSUL_SSL/${consul_ssl}/g" $CONSULCONFIGDIR/consul.hcl
 sed -i "s/PRIVATE_IPV4/$PRIVATE_IPV4/g" $CONSULCONFIGDIR/consul.hcl
 sed -i "s/RETRY_JOIN/${retry_join}/g" $CONSULCONFIGDIR/consul.hcl
 sed -i "s/ACLs_ENABLED/${consul_acls_enabled}/g" $CONSULCONFIGDIR/consul.hcl
@@ -89,7 +90,14 @@ fi
 sudo cp $CONFIGDIR/nomad-client.hcl $NOMADCONFIGDIR/nomad.hcl
 sudo cp $CONFIGDIR/nomad.service /etc/systemd/system/nomad.service
 
+if [ "${consul_ssl}" = "true" ]; then
+  sed -i "s/CONSUL_HTTP/https/g" $CONSULCONFIGDIR/consul.hcl
+else
+  sed -i "s/CONSUL_HTTP/http/g" $CONSULCONFIGDIR/consul.hcl
+fi
 
+sed -i "s/CONSUL_SSL/${consul_ssl}/g" $NOMADCONFIGDIR/nomad.hcl
+sed -i "s/NOMAD_SSL/${nomad_ssl}/g" $NOMADCONFIGDIR/nomad.hcl
 sed -i "s/NODE_CLASS/\"${node_class}\"/g" $NOMADCONFIGDIR/nomad.hcl
 sed -i "s/ACLs_ENABLED/${nomad_acls_enabled}/g" $NOMADCONFIGDIR/nomad.hcl
 
@@ -97,7 +105,13 @@ sed -i "s/ACLs_ENABLED/${nomad_acls_enabled}/g" $NOMADCONFIGDIR/nomad.hcl
 if [ "${consul_acls_enabled}" = "true" ]; then
     sed -i -e "s/CONSUL_TOKEN/${consul_master_token}/g" $NOMADCONFIGDIR/nomad.hcl
 else
-    sed -i -e "s/{CONSUL-TOKEN}//g" $NOMADCONFIGDIR/nomad.hcl
+    sed -i -e "s/CONSUL-TOKEN//g" $NOMADCONFIGDIR/nomad.hcl
+fi
+
+if [ "${consul_ssl}" = "true" ]; then
+  sed -i "s/CONSUL_ADDR/127.0.0.1:8501/g" $NOMADCONFIGDIR/nomad.hcl
+else
+  sed -i "s/CONSUL_ADDR/127.0.0.1:8500/g" $NOMADCONFIGDIR/nomad.hcl
 fi
 
 sudo systemctl enable nomad

@@ -27,15 +27,15 @@ acl {
 }
 
 tls {
-  http = true
-  rpc  = true
+  http = NOMAD_SSL
+  rpc  = NOMAD_SSL
 
   ca_file   = "/etc/nomad.d/nomad-ca.pem"
   cert_file = "/etc/nomad.d/server.pem"
   key_file  = "/etc/nomad.d/server-key.pem"
 
-  verify_server_hostname = true
-  verify_https_client    = true
+  verify_server_hostname = NOMAD_SSL
+  verify_https_client    = NOMAD_SSL
 }
 
 autopilot {
@@ -49,15 +49,17 @@ autopilot {
 }
 
 telemetry {
+  collection_interval = "1s"
+  disable_hostname = true
+  prometheus_metrics = true
   publish_allocation_metrics = true
-  publish_node_metrics       = true
-  prometheus_metrics         = true
+  publish_node_metrics = true
 }
 
 consul {
-  ssl        = true
-  verify_ssl = true
-  address    = "127.0.0.1:8501"
+  ssl        = CONSUL_SSL
+  verify_ssl = CONSUL_SSL
+  address    = "CONSUL_ADDR"
   ca_file    = "/etc/consul.d/consul-ca.pem"
   cert_file  = "/etc/consul.d/server.pem"
   key_file   = "/etc/consul.d/server-key.pem"

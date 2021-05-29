@@ -3,10 +3,14 @@ resource "aws_launch_template" "nomad_client" {
   image_id      = data.aws_ami.nomad_image.image_id
   instance_type = var.client_instance_type
   key_name      = var.key_pair
-  user_data     = base64encode(data.template_file.user_data_client.rendered)
+  user_data     = base64gzip(data.template_file.user_data_client.rendered)
 
   iam_instance_profile {
     name = aws_iam_instance_profile.nomad_client.name
+  }
+
+  network_interfaces {
+    security_groups = [aws_security_group.primary.id]
   }
 
   tag_specifications {

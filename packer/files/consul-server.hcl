@@ -7,7 +7,7 @@ advertise_addr = "PRIVATE_IPV4"
 bootstrap_expect = SERVER_COUNT
 
 addresses {
-  https = "0.0.0.0"
+  CONSUL_HTTP = "0.0.0.0"
 }
 
 ports {
@@ -23,9 +23,9 @@ retry_join = ["RETRY_JOIN"]
 server = true
 ui = true
 
-// connect {
-//   enabled = true
-// }
+connect {
+  enabled = true
+}
 
 autopilot {
   cleanup_dead_servers = true
@@ -48,14 +48,14 @@ encrypt_verify_incoming = true
 encrypt_verify_outgoing = true
 
 # tls config
-verify_incoming = true
-verify_outgoing = true
-verify_server_hostname = true
+verify_incoming = CONSUL_SSL
+verify_outgoing = CONSUL_SSL
+verify_server_hostname = CONSUL_SSL
 
 ca_file = "/etc/consul.d/consul-ca.pem"
 cert_file = "/etc/consul.d/server.pem"
 key_file = "/etc/consul.d/server-key.pem"
 
 auto_encrypt {
-  allow_tls = true
+  allow_tls = CONSUL_SSL
 }

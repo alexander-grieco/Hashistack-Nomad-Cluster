@@ -13,16 +13,16 @@ resource "aws_elb" "nomad_server" {
 
   listener {
     instance_port     = 4646
-    instance_protocol = "tcp"
+    instance_protocol = var.nomad_ssl == true ? "tcp" : "http"
     lb_port           = 4646
-    lb_protocol       = "tcp"
+    lb_protocol       = var.nomad_ssl == true ? "tcp" : "http"
   }
 
   listener {
-    instance_port     = 8501
-    instance_protocol = "tcp"
-    lb_port           = 8501
-    lb_protocol       = "tcp"
+    instance_port     = var.consul_ssl == true ? 8501 : 8500
+    instance_protocol = var.consul_ssl == true ? "tcp" : "http"
+    lb_port           = var.consul_ssl == true ? 8501 : 8500
+    lb_protocol       = var.consul_ssl == true ? "tcp" : "http"
   }
   security_groups = [aws_security_group.server_lb.id]
 }
@@ -32,34 +32,48 @@ resource "aws_elb" "nomad_client" {
   subnets  = data.terraform_remote_state.network.outputs.subnet_ids
   internal = false
   listener {
-    instance_port     = 8501
-    instance_protocol = "tcp"
-    lb_port           = 8501
-    lb_protocol       = "tcp"
+    instance_port     = var.consul_ssl == true ? 8501 : 8500
+    instance_protocol = var.consul_ssl == true ? "tcp" : "http"
+    lb_port           = var.consul_ssl == true ? 8501 : 8500
+    lb_protocol       = var.consul_ssl == true ? "tcp" : "http"
   }
   listener {
     instance_port     = 80
-    instance_protocol = "http"
+    instance_protocol = "tcp"
     lb_port           = 80
-    lb_protocol       = "http"
+    lb_protocol       = "tcp"
   }
   listener {
     instance_port     = 9090
-    instance_protocol = "http"
+    instance_protocol = "tcp"
     lb_port           = 9090
-    lb_protocol       = "http"
+    lb_protocol       = "tcp"
   }
   listener {
     instance_port     = 3000
-    instance_protocol = "http"
+    instance_protocol = "tcp"
     lb_port           = 3000
-    lb_protocol       = "http"
+    lb_protocol       = "tcp"
   }
   listener {
     instance_port     = 8081
-    instance_protocol = "http"
+    instance_protocol = "tcp"
     lb_port           = 8081
-    lb_protocol       = "http"
+    lb_protocol       = "tcp"
+  }
+
+  listener {
+    instance_port     = 9998
+    instance_protocol = "tcp"
+    lb_port           = 9998
+    lb_protocol       = "tcp"
+  }
+
+  listener {
+    instance_port     = 9999
+    instance_protocol = "tcp"
+    lb_port           = 9999
+    lb_protocol       = "tcp"
   }
 
   // health_check {

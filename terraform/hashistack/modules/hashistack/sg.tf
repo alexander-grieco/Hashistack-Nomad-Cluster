@@ -12,8 +12,8 @@ resource "aws_security_group" "server_lb" {
 
   # Consul HTTP API & UI.
   ingress {
-    from_port   = 8501
-    to_port     = 8501
+    from_port   = var.consul_ssl == true ? 8501 : 8500
+    to_port     = var.consul_ssl == true ? 8501 : 8500
     protocol    = "tcp"
     cidr_blocks = var.allowlist_ip
   }
@@ -184,14 +184,14 @@ resource "aws_security_group" "primary" {
     from_port   = 9998
     to_port     = 9998
     protocol    = "tcp"
-    cidr_blocks = var.allowlist_ip
+    security_groups = [aws_security_group.client_lb.id]
   }
 
   ingress {
     from_port   = 9999
     to_port     = 9999
     protocol    = "tcp"
-    cidr_blocks = var.allowlist_ip
+    security_groups = [aws_security_group.client_lb.id]
   }
 
   # grafana

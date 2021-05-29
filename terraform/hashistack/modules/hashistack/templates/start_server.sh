@@ -49,13 +49,20 @@ sudo cp $CONFIGDIR/consul.service /etc/systemd/system/consul.service
 
 ## Replace variables
 if [ "${consul_acls_enabled}" = "true" ]; then
-    sed -i "s/{CONSUL_TOKEN}/${consul_master_token}/g" $CONFIGDIR/nomad-server.hcl
-    sed -i "s/{CONSUL_TOKEN}/${consul_master_token}/g" $CONSULCONFIGDIR/consul.hcl
+    sed -i "s/CONSUL_TOKEN/${consul_master_token}/g" $CONFIGDIR/nomad-server.hcl
+    sed -i "s/CONSUL_TOKEN/${consul_master_token}/g" $CONSULCONFIGDIR/consul.hcl
 else
-    sed -i "s/{CONSUL_TOKEN}//g" $CONFIGDIR/nomad-server.hcl
-    sed -i "s/{CONSUL_TOKEN}//g" $CONSULCONFIGDIR/consul.hcl
+    sed -i "s/CONSUL_TOKEN//g" $CONFIGDIR/nomad-server.hcl
+    sed -i "s/CONSUL_TOKEN//g" $CONSULCONFIGDIR/consul.hcl
 fi
 
+if [ "${consul_ssl}" = "true" ]; then
+  sed -i "s/CONSUL_HTTP/https/g" $CONSULCONFIGDIR/consul.hcl
+else
+  sed -i "s/CONSUL_HTTP/http/g" $CONSULCONFIGDIR/consul.hcl
+fi
+
+sed -i "s/CONSUL_SSL/${consul_ssl}/g" $CONSULCONFIGDIR/consul.hcl
 sed -i "s/PRIVATE_IPV4/$PRIVATE_IPV4/g" $CONSULCONFIGDIR/consul.hcl
 sed -i "s/ACLs_ENABLED/${consul_acls_enabled}/g" $CONSULCONFIGDIR/consul.hcl
 sed -i "s/ACLs_DEFAULT_POLICY/${acls_default_policy}/g" $CONSULCONFIGDIR/consul.hcl
@@ -112,11 +119,19 @@ sudo cp $CONFIGDIR/nomad-server.hcl $NOMADCONFIGDIR/nomad.hcl
 sudo cp $CONFIGDIR/nomad.service /etc/systemd/system/nomad.service
 
 ## Replace variables
+sed -i "s/CONSUL_SSL/${consul_ssl}/g" $NOMADCONFIGDIR/nomad.hcl
+sed -i "s/NOMAD_SSL/${nomad_ssl}/g" $NOMADCONFIGDIR/nomad.hcl
 sed -i "s/ACLs_ENABLED/${nomad_acls_enabled}/g" $NOMADCONFIGDIR/nomad.hcl
 sed -i "s/SERVER_COUNT/${server_count}/g" $NOMADCONFIGDIR/nomad.hcl
 sed -i "s/RETRY_JOIN/${retry_join}/g" $NOMADCONFIGDIR/nomad.hcl
 sed -i "s/PRIVATE_IPV4/$PRIVATE_IPV4/g" $NOMADCONFIGDIR/nomad.hcl
 sed -i "s@ENCRYPT_KEY@${encrypt_key_nomad}@g" $NOMADCONFIGDIR/nomad.hcl
+
+if [ "${consul_ssl}" = "true" ]; then
+  sed -i "s/CONSUL_ADDR/127.0.0.1:8501/g" $NOMADCONFIGDIR/nomad.hcl
+else
+  sed -i "s/CONSUL_ADDR/127.0.0.1:8500/g" $NOMADCONFIGDIR/nomad.hcl
+fi
 
 ## Start Nomad service
 sudo systemctl enable nomad.service
@@ -141,7 +156,6 @@ sudo mv /etc/resolv.conf.new /etc/resolv.conf
 service docker restart
 
 # Set env vars for tool CLIs
-# echo "export CONSUL_RPC_ADDR=127.0.0.1:8400" | sudo tee --append /home/$HOME_DIR/.bashrc
 echo "export CONSUL_HTTP_ADDR=https://127.0.0.1:8501" | sudo tee --append /home/$HOME_DIR/.bashrc
 echo "export NOMAD_ADDR=https://127.0.0.1:4646" | sudo tee --append /home/$HOME_DIR/.bashrc
 echo "export CONSUL_CACERT=$CONSULCONFIGDIR/consul-ca.pem" | sudo tee --append /home/$HOME_DIR/.bashrc

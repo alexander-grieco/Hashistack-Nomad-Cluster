@@ -87,7 +87,7 @@ variable "allowlist_ip" {
 variable "consul_acls_enabled" {
   description = "If ACLs should be enabled for the Consul cluster"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "acls_default_policy" {
@@ -99,11 +99,23 @@ variable "acls_default_policy" {
 variable "nomad_acls_enabled" {
   description = "If ACLs should be enabled for the Nomad cluster"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "node_class" {
   description = "A string to arbitrarily group nodes together. This tag will be applied to all client nodes and can be used for scheduling nomad jobs"
   type        = string
   default     = "hashistack-client"
+}
+
+variable "consul_ssl" {
+  description = "Boolean to determine if Consul should have TLS encryption"
+  type = bool
+  default = false
+}
+
+variable "nomad_ssl" {
+  description = "Boolean to determine if Nomad should have TLS encryption"
+  type = bool
+  default = false
 }

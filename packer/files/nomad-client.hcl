@@ -20,21 +20,21 @@ acl {
 
 # Require TLS
 tls {
-  http = true
-  rpc  = true
+  http = NOMAD_SSL
+  rpc  = NOMAD_SSL
 
   ca_file   = "/etc/nomad.d/nomad-ca.pem"
   cert_file = "/etc/nomad.d/client.pem"
   key_file  = "/etc/nomad.d/client-key.pem"
 
-  verify_server_hostname = true
-  verify_https_client    = true
+  verify_server_hostname = NOMAD_SSL
+  verify_https_client    = NOMAD_SSL
 }
 
 consul {
-  ssl        = true
-  verify_ssl = true
-  address    = "127.0.0.1:8501"
+  ssl        = CONSUL_SSL
+  verify_ssl = CONSUL_SSL
+  address    = "CONSUL_ADDR"
   ca_file    = "/etc/consul.d/consul-ca.pem"
   cert_file  = "/etc/consul.d/client.pem"
   key_file   = "/etc/consul.d/client-key.pem"
@@ -42,9 +42,9 @@ consul {
 }
 
 telemetry {
-  collection_interval        = "5s"
-  disable_hostname           = true
-  prometheus_metrics         = true
+  collection_interval = "1s"
+  disable_hostname = true
+  prometheus_metrics = true
   publish_allocation_metrics = true
-  publish_node_metrics       = true
+  publish_node_metrics = true
 }

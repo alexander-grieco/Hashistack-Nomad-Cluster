@@ -7,7 +7,7 @@ advertise_addr = "PRIVATE_IPV4"
 advertise_addr_wan = "PRIVATE_IPV4"
 
 addresses {
-  https = "0.0.0.0"
+  CONSUL_HTTP = "0.0.0.0"
 }
 
 ports {
@@ -21,9 +21,9 @@ leave_on_terminate = true
 log_level = "DEBUG"
 server = false
 
-// connect {
-//   enabled = true
-// }
+connect {
+  enabled = true
+}
 
 acl {
   enabled        = ACLs_ENABLED
@@ -37,13 +37,9 @@ encrypt_verify_outgoing = true
 retry_join = ["RETRY_JOIN"]
 ui = true
 
-verify_incoming = false
-verify_outgoing = true
-verify_server_hostname = true
+verify_incoming = CONSUL_SSL
+verify_outgoing = CONSUL_SSL
+verify_server_hostname = CONSUL_SSL
 ca_file = "/etc/consul.d/consul-ca.pem"
 cert_file = "/etc/consul.d/client.pem"
 key_file = "/etc/consul.d/client-key.pem"
-
-auto_encrypt = {
-  tls = true
-}

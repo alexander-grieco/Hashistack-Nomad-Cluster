@@ -22,6 +22,7 @@ data "template_file" "user_data_server" {
     consul_ca_cert            = data.terraform_remote_state.certs.outputs.consul_cacert
     consul_server_cert        = data.terraform_remote_state.certs.outputs.consul_server_cert
     consul_server_private_key = data.terraform_remote_state.certs.outputs.consul_server_key
+    consul_ssl                = var.consul_ssl
     acls_default_policy       = var.acls_default_policy
     server_count              = var.server_count
     retry_join                = var.retry_join
@@ -32,6 +33,7 @@ data "template_file" "user_data_server" {
     nomad_cli_cert            = data.terraform_remote_state.certs.outputs.nomad_cli_cert
     nomad_cli_private_key     = data.terraform_remote_state.certs.outputs.nomad_cli_key
     encrypt_key_nomad         = replace(random_id.nomad-gossip-key.b64_std, "/", "\\/")
+    nomad_ssl                 = var.nomad_ssl
   }
 }
 
@@ -47,6 +49,7 @@ data "template_file" "user_data_client" {
     consul_client_cert        = data.terraform_remote_state.certs.outputs.consul_client_cert
     consul_client_private_key = data.terraform_remote_state.certs.outputs.consul_client_key
     consul_master_token       = random_uuid.consul_master_token.result
+    consul_ssl                = var.consul_ssl
     acls_default_policy       = var.acls_default_policy
     encrypt_key_consul        = replace(random_id.consul-gossip-key.b64_std, "/", "\\/")
     node_class                = var.node_class
@@ -55,5 +58,6 @@ data "template_file" "user_data_client" {
     nomad_client_cert         = data.terraform_remote_state.certs.outputs.nomad_client_cert
     nomad_client_private_key  = data.terraform_remote_state.certs.outputs.nomad_client_key
     retry_join                = var.retry_join
+    nomad_ssl                 = var.nomad_ssl
   }
 }

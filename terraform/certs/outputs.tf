@@ -58,6 +58,10 @@ output "nomad_client_key" {
   sensitive = true
 }
 
-output "dns_prefix" {
-  value = var.dns_prefix
+output "server_dns_prefix" {
+  value = var.server_dns_prefix
+}
+
+output "client_dns_prefix" {
+  value = var.client_dns_prefix
 }

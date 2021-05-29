@@ -18,7 +18,12 @@ variable "ssl_password" {
   description = "Password used to encrypt .pfx files that would be used in your browser for remote UI access"
 }
 
-variable "dns_prefix" {
+variable "server_dns_prefix" {
+  type = string
+  default = "admin"
+}
+
+variable "client_dns_prefix" {
   type = string
   default = "www"
 }

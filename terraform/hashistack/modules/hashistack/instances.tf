@@ -29,6 +29,6 @@ resource "aws_instance" "nomad_server" {
     delete_on_termination = "true"
   }
 
-  user_data            = data.template_file.user_data_server.rendered
+  user_data_base64     = base64gzip(data.template_file.user_data_server.rendered)
   iam_instance_profile = aws_iam_instance_profile.nomad_server.name
 }
