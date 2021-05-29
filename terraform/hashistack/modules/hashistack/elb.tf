@@ -6,9 +6,9 @@ resource "aws_elb_attachment" "nomad_server" {
 }
 
 resource "aws_elb" "nomad_server" {
-  name     = "${var.stack_name}-nomad-server"
-  subnets  = data.terraform_remote_state.network.outputs.subnet_ids
-  internal = false
+  name         = "${var.stack_name}-nomad-server"
+  subnets      = data.terraform_remote_state.network.outputs.subnet_ids
+  internal     = false
   idle_timeout = 360
 
   listener {

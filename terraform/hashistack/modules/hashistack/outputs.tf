@@ -14,22 +14,6 @@ output "server_addresses" {
   value = join("\n", formatlist(" * instance %v - Public: %v, Private: %v", values(aws_instance.nomad_server)[*].tags.Name, values(aws_instance.nomad_server)[*].public_ip, values(aws_instance.nomad_server)[*].private_ip))
 }
 
-// output "server_elb_dns" {
-//   value = aws_elb.nomad_server.dns_name
-// }
-
-// output "server_elb_dns_zone_id" {
-//   value = aws_elb.nomad_server.zone_id
-// }
-
-// output "client_elb_dns" {
-//   value = aws_elb.nomad_client.dns_name
-// }
-
-// output "client_elb_dns_zone_id" {
-//   value = aws_elb.nomad_client.zone_id
-// }
-
 output "client_addr" {
   value = var.consul_ssl == true ? "https://${data.terraform_remote_state.certs.outputs.client_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}" : "http://${data.terraform_remote_state.certs.outputs.client_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}"
 }
@@ -63,7 +47,7 @@ output "ssh_file" {
 }
 
 output "consul_master_token" {
-  sensitive = true
+  sensitive   = true
   description = "The Consul master token."
   value       = random_uuid.consul_master_token.result
 }

@@ -24,8 +24,7 @@ terraform {
   }
 }
 
-provider "aws" {
-}
+provider "aws" {}
 
 module "hashistack" {
   source = "./modules/hashistack"
@@ -34,7 +33,7 @@ module "hashistack" {
   owner_email  = var.owner_name
   key_pair     = var.key_pair
   owner_name   = var.owner_name
-  ami          = var.ami
-  stack_name   = var.stack_name
   allowlist_ip = ["0.0.0.0/0"]
+  nomad_ssl    = var.nomad_ssl
+  consul_ssl   = var.consul_ssl
 }

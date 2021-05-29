@@ -181,16 +181,16 @@ resource "aws_security_group" "primary" {
 
   # Fabio 
   ingress {
-    from_port   = 9998
-    to_port     = 9998
-    protocol    = "tcp"
+    from_port       = 9998
+    to_port         = 9998
+    protocol        = "tcp"
     security_groups = [aws_security_group.client_lb.id]
   }
 
   ingress {
-    from_port   = 9999
-    to_port     = 9999
-    protocol    = "tcp"
+    from_port       = 9999
+    to_port         = 9999
+    protocol        = "tcp"
     security_groups = [aws_security_group.client_lb.id]
   }
 

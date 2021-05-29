@@ -19,11 +19,11 @@ variable "ssl_password" {
 }
 
 variable "server_dns_prefix" {
-  type = string
+  type    = string
   default = "admin"
 }
 
 variable "client_dns_prefix" {
-  type = string
+  type    = string
   default = "www"
 }

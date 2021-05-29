@@ -17,12 +17,12 @@ variable "owner_email" {
 variable "region" {
   description = "The AWS region to deploy into."
   type        = string
-  default     = "us-west-2"
 }
 
 variable "ami" {
   description = "The AMI to use, preferably built by the supplied Packer scripts."
   type        = string
+  default     = null
 }
 
 variable "key_pair" {
@@ -110,12 +110,12 @@ variable "node_class" {
 
 variable "consul_ssl" {
   description = "Boolean to determine if Consul should have TLS encryption"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "nomad_ssl" {
   description = "Boolean to determine if Nomad should have TLS encryption"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
