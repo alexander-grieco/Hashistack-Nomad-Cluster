@@ -73,6 +73,7 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | sudo APT_KEY_DONT_WARN
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/${distro} $(lsb_release -cs) stable"
 sudo apt-get update
 sudo apt-get install -y docker-ce
+sudo usermod -aG docker ubuntu
 
 # CNI plugins
 curl -sL -o cni-plugins.tgz ${CNIDOWNLOAD}

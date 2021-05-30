@@ -32,8 +32,8 @@ resource "aws_security_group" "client_lb" {
 
   # Consul HTTP API & UI.
   ingress {
-    from_port   = 8501
-    to_port     = 8501
+    from_port   = var.consul_ssl == true ? 8501 : 8500
+    to_port     = var.consul_ssl == true ? 8501 : 8500
     protocol    = "tcp"
     cidr_blocks = var.allowlist_ip
   }
@@ -59,6 +59,28 @@ resource "aws_security_group" "client_lb" {
     from_port   = 9090
     to_port     = 9090
     protocol    = "tcp"
+    cidr_blocks = var.allowlist_ip
+  }
+
+  # Fabio 
+  ingress {
+    from_port       = 9998
+    to_port         = 9998
+    protocol        = "tcp"
+    cidr_blocks = var.allowlist_ip
+  }
+
+  ingress {
+    from_port       = 9999
+    to_port         = 9999
+    protocol        = "tcp"
+    cidr_blocks = var.allowlist_ip
+  }
+
+  ingress {
+    from_port       = 8081
+    to_port         = 8081
+    protocol        = "tcp"
     cidr_blocks = var.allowlist_ip
   }
 

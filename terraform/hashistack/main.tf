@@ -29,11 +29,13 @@ provider "aws" {}
 module "hashistack" {
   source = "./modules/hashistack"
 
-  region       = var.region
-  owner_email  = var.owner_name
-  key_pair     = var.key_pair
-  owner_name   = var.owner_name
-  allowlist_ip = ["0.0.0.0/0"]
-  nomad_ssl    = var.nomad_ssl
-  consul_ssl   = var.consul_ssl
+  region              = var.region
+  owner_email         = var.owner_name
+  key_pair            = var.key_pair
+  owner_name          = var.owner_name
+  allowlist_ip        = ["0.0.0.0/0"]
+  nomad_ssl           = var.nomad_ssl
+  consul_ssl          = var.consul_ssl
+  nomad_acls_enabled  = var.nomad_acls_enabled
+  consul_acls_enabled = var.consul_acls_enabled
 }

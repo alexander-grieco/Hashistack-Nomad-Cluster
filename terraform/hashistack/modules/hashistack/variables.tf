@@ -87,7 +87,7 @@ variable "allowlist_ip" {
 variable "consul_acls_enabled" {
   description = "If ACLs should be enabled for the Consul cluster"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "acls_default_policy" {
@@ -99,7 +99,7 @@ variable "acls_default_policy" {
 variable "nomad_acls_enabled" {
   description = "If ACLs should be enabled for the Nomad cluster"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "node_class" {
