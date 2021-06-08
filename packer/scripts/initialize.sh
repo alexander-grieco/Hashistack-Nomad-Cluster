@@ -20,13 +20,13 @@ sudo apt-get update
 sudo apt-get install -y software-properties-common unzip tree redis-tools jq curl tmux dnsmasq
 
 # Consul Variables
-CONSULVERSION="1.9.5"
+CONSULVERSION="1.9.6"
 CONSULDOWNLOAD=https://releases.hashicorp.com/consul/${CONSULVERSION}/consul_${CONSULVERSION}_linux_amd64.zip
 CONSULCONFIGDIR=/etc/consul.d
 CONSULDIR=/opt/consul
 
 # Nomad Variables
-NOMADVERSION="1.0.4"
+NOMADVERSION="1.1.0"
 NOMADDOWNLOAD=https://releases.hashicorp.com/nomad/${NOMADVERSION}/nomad_${NOMADVERSION}_linux_amd64.zip
 NOMADCONFIGDIR=/etc/nomad.d
 NOMADDIR=/opt/nomad

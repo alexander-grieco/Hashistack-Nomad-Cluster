@@ -1,0 +1,8 @@
+region              = "us-west-2"
+key_pair            = "hashistack-keypair"
+owner_name          = "Alexander Grieco"
+owner_email         = "alexander-grieco@realemail.com"
+nomad_ssl           = false
+consul_ssl          = false
+nomad_acls_enabled  = true
+consul_acls_enabled = true

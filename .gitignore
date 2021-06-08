@@ -4,3 +4,4 @@ packer/certs/
 *.pem
 *.tfvars
 *.DS_Store
+terraform/hashistack/jobs
