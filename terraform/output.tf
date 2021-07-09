@@ -15,13 +15,5 @@ export NOMAD_CLIENT_DNS=http://${module.hashistack.client_addr}
 export NOMAD_ADDR=${module.hashistack.nomad_addr}
 export CONSUL_HTTP_ADDR=${module.hashistack.consul_addr}
 
-Run these commands if you have ACLs enabled
-export NOMAD_TOKEN=$(nomad acl bootstrap | grep "Secret ID" | xargs | cut -d' ' -f4)
-export CONSUL_HTTP_TOKEN=$(sed -e 's/^"//' -e 's/"$//' <<<$(terraform output consul_master_token))
 CONFIGURATION
-}
-
-output "consul_master_token" {
-  sensitive = true
-  value     = module.hashistack.consul_master_token
 }

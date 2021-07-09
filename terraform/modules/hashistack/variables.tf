@@ -84,38 +84,18 @@ variable "allowlist_ip" {
   default     = ["0.0.0.0/0"]
 }
 
-variable "consul_acls_enabled" {
-  description = "If ACLs should be enabled for the Consul cluster"
-  type        = bool
-  default     = false
-}
-
-variable "acls_default_policy" {
-  description = "The default policy to use for Consul ACLs (allow/deny)"
-  type        = string
-  default     = "deny"
-}
-
-variable "nomad_acls_enabled" {
-  description = "If ACLs should be enabled for the Nomad cluster"
-  type        = bool
-  default     = false
-}
-
 variable "node_class" {
   description = "A string to arbitrarily group nodes together. This tag will be applied to all client nodes and can be used for scheduling nomad jobs"
   type        = string
   default     = "hashistack-client"
 }
 
-variable "consul_ssl" {
-  description = "Boolean to determine if Consul should have TLS encryption"
-  type        = bool
-  default     = false
+variable "vpc_id" {
+  description = "The id of the VPC where the Nomad cluster will be deployed"
+  type = string
 }
 
-variable "nomad_ssl" {
-  description = "Boolean to determine if Nomad should have TLS encryption"
-  type        = bool
-  default     = false
+variable "subnet_ids" {
+  description = "Subnet ids of the subnets within the VPC network"
+  type = list(string)
 }

@@ -74,10 +74,6 @@ data "aws_iam_policy_document" "nomad_client" {
 
     actions = [
       "autoscaling:CreateOrUpdateTags",
-      "autoscaling:DescribeScalingActivities",
-      "autoscaling:DescribeAutoScalingGroups",
-      "autoscaling:UpdateAutoScalingGroup",
-      "autoscaling:TerminateInstanceInAutoScalingGroup",
       "ec2:DescribeInstances",
     ]
 

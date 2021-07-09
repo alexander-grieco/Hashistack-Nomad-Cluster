@@ -1,0 +1,4 @@
+region              = "us-west-2"
+key_pair            = "hashistack-keypair"
+owner_name          = "Alexander Grieco"
+owner_email         = "alexander-grieco@realemail.com"

@@ -1,1 +1,0 @@
-resource "random_uuid" "consul_master_token" {}

@@ -13,8 +13,8 @@ source "amazon-ebs" "aws-ubuntu" {
   }
 
   tags = {
-    Name = "Nomad"
-    type = "Hashistack"
+    Name = var.tags["name"]
+    type = var.tags["type"]
   }
   ssh_username          = "ubuntu"
   force_deregister      = true

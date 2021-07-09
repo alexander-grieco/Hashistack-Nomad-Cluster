@@ -21,12 +21,11 @@ build {
     destination = "/ops"
   }
 
-  # provisioner "file" {
-  #   source      = "certs"
-  #   destination = "/ops"
-  # }
-
   provisioner "shell" {
     script = "scripts/initialize.sh"
+    environment_vars = [
+      "CONSULVERSION=${var.consul_version}",
+      "NOMADVERSION=${var.nomad_version}"
+    ]
   }
 }
