@@ -2,7 +2,7 @@ data "terraform_remote_state" "certs" {
   backend = "remote"
 
   config = {
-    organization = "grieco-tech"
+    organization = "grieco-orchestrate"
     workspaces = {
       name = "nomad-hashistack-certs"
     }

@@ -7,9 +7,9 @@ output "subnet_ids" {
 }
 
 output "hosted_zone_name" {
-  value = aws_route53_zone.agrieco.name
+  value = aws_route53_zone.hosted_zone.name
 }
 
 output "hosted_zone_id" {
-  value = aws_route53_zone.agrieco.zone_id
+  value = aws_route53_zone.hosted_zone.zone_id
 }

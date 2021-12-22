@@ -1,8 +1,8 @@
 terraform {
-  required_version = "0.14.8"
+  required_version = "1.1.2"
 
   backend "remote" {
-    organization = "grieco-tech"
+    organization = "grieco-orchestrate"
 
     workspaces {
       name = "nomad-hashistack"
@@ -11,7 +11,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "3.33.0"
+      version = "3.70.0"
     }
     random = {
       source  = "hashicorp/random"

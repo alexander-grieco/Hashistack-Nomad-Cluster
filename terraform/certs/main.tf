@@ -1,8 +1,8 @@
 terraform {
-  required_version = "0.14.8"
+  required_version = "1.1.2"
 
   backend "remote" {
-    organization = "grieco-tech"
+    organization = "grieco-orchestrate"
 
     workspaces {
       name = "nomad-hashistack-certs"
@@ -21,5 +21,14 @@ terraform {
       source  = "hashicorp/null"
       version = "3.1.0"
     }
+    cloudflare = {
+      source = "cloudflare/cloudflare"
+      version = "3.5.0"
+    }
   }
 }
+
+provider "cloudflare" {
+  # Configuration options
+}
+
