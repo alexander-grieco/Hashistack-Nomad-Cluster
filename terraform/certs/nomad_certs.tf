@@ -38,7 +38,8 @@ resource "tls_cert_request" "nomad-cli" {
   ]
 
   dns_names = [
-    "${var.server_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}",
+    "admin.alexgrieco.io",
+    // "${cloudflare_record.admin.hostname}",
   ]
 
   subject {
@@ -79,7 +80,8 @@ resource "tls_cert_request" "nomad-client" {
   dns_names = [
     "localhost",
     "client.global.nomad",
-    "${var.client_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}",
+    "test.alexgrieco.io",
+    // "${cloudflare_record.client.hostname}",
   ]
 
   subject {
@@ -119,7 +121,8 @@ resource "tls_cert_request" "nomad-server" {
   dns_names = [
     "localhost",
     "server.global.nomad",
-    "${var.server_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}",
+    "admin.alexgrieco.io",
+    // "${cloudflare_record.admin.hostname}",
   ]
 
   subject {

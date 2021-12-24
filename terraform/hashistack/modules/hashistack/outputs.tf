@@ -15,15 +15,15 @@ output "server_addresses" {
 }
 
 output "client_addr" {
-  value = var.consul_ssl == true ? "https://${data.terraform_remote_state.certs.outputs.client_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}" : "http://${data.terraform_remote_state.certs.outputs.client_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}"
+  value = var.consul_ssl == true ? "https://test.alexgrieco.io" : "http://test.alexgrieco.io"
 }
 
 output "nomad_addr" {
-  value = var.nomad_ssl == true ? "https://${data.terraform_remote_state.certs.outputs.server_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}:4646" : "http://${data.terraform_remote_state.certs.outputs.server_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}:4646"
+  value = var.nomad_ssl == true ? "https://admin.alexgrieco.io:4646" : "http://admin.alexgrieco.io:4646"
 }
 
 output "consul_addr" {
-  value = var.consul_ssl == true ? "https://${data.terraform_remote_state.certs.outputs.server_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}:8501" : "http://${data.terraform_remote_state.certs.outputs.server_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}:8500"
+  value = var.consul_ssl == true ? "https://admin.alexgrieco.io:8501" : "http://admin.alexgrieco.io:8500"
 }
 
 output "hosts_file" {

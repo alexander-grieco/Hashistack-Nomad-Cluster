@@ -41,7 +41,8 @@ resource "tls_cert_request" "consul-cli" {
   dns_names = [
     "localhost",
     "cli.dc1.consul",
-    "${var.server_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}",
+    "admin.alexgrieco.io",
+    // "${cloudflare_record.admin.hostname}",
   ]
 
   subject {
@@ -82,7 +83,8 @@ resource "tls_cert_request" "consul-server" {
   dns_names = [
     "localhost",
     "server.dc1.consul",
-    "${var.server_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}",
+    "admin.alexgrieco.io",
+    // "${cloudflare_record.admin.hostname}",
   ]
 
   subject {
@@ -123,7 +125,8 @@ resource "tls_cert_request" "consul-client" {
   dns_names = [
     "localhost",
     "client.dc1.consul",
-    "${var.client_dns_prefix}.${data.terraform_remote_state.network.outputs.hosted_zone_name}",
+    "test.alexgrieco.io",
+    // "${cloudflare_record.client.hostname}",
   ]
 
   subject {

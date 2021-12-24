@@ -27,3 +27,7 @@ variable "client_dns_prefix" {
   type    = string
   default = "www"
 }
+
+variable "hostname" {
+  type = string
+}

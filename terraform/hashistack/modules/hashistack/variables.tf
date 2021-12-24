@@ -39,7 +39,7 @@ variable "server_instance_type" {
 variable "server_count" {
   description = "The number of Nomad servers to run."
   type        = number
-  default     = 3
+  default     = 1
 }
 
 variable "client_instance_type" {

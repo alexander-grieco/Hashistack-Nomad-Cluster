@@ -52,10 +52,10 @@ telemetry {
   publish_node_metrics = true
 }
 
-docker {
-  tls {
-    cert = "/etc/nomad.d/client.pem"
-    key  = "/etc/nomad.d/client-key.pem"
-    ca   = "/etc/nomad.d/nomad-ca.pem"
-  }
-}
+// docker {
+//   tls {
+//     cert = "/etc/nomad.d/client.pem"
+//     key  = "/etc/nomad.d/client-key.pem"
+//     ca   = "/etc/nomad.d/nomad-ca.pem"
+//   }
+// }
